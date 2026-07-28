@@ -677,8 +677,8 @@
         <p>Rather than seeing yielding as weakness or surrender, the exhibition approaches it as a form of responsiveness — a way of remaining open and adaptable within changing conditions.</p>
       </div>
       <div class="dialog-gallery">
-        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7679_JFH.jpg" alt="Artworks installed in Yield">
-        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7696_JFH.jpg" alt="Visitor viewing the Yield exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7679_JFH.jpg" alt="Artworks installed in Yield">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7696_JFH.jpg" alt="Visitor viewing the Yield exhibition">
       </div>
     </div>
   </dialog>
@@ -713,7 +713,7 @@
       </div>
       <div class="dialog-gallery">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT13.jpg" alt="Sculptures installed in Bending Time">
-        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8590.JPG" alt="Visitors inside the Bending Time exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8590.JPG" alt="Visitors inside the Bending Time exhibition">
       </div>
     </div>
   </dialog>
@@ -743,7 +743,7 @@
         <p>An evening dedicated to the poetry of Oleg Prokofiev, offering a rare opportunity to experience his literary voice alongside his artistic legacy.</p>
         <p>Prokofiev left behind several hundred poems, all written in Russian and preserved within his family archive. His poetic language is imagistic and fragmentary, often resisting translation. Dispensing with punctuation, he relies on line breaks to shape meaning.</p>
       </div>
-      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman reading at the Oleg Prokofiev poetry evening"></div>
+      <div class="dialog-gallery"><img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman reading at the Oleg Prokofiev poetry evening"></div>
     </div>
   </dialog>
 
@@ -771,7 +771,7 @@
         <p><em>Lydia Grigorieva. I Choose to Live</em> opens in the poet’s London home and garden before travelling into memories of her childhood in the Far North. Grigorieva reads her poetry as archive footage evokes the 1960s “Thaw” and the writers around her.</p>
         <p>Dedicated to the poet’s 80th anniversary, the film moves through personal loss while revealing an inner world where the earthly and eternal intertwine.</p>
       </div>
-      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the I Choose to Live documentary screening"></div>
+      <div class="dialog-gallery"><img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the I Choose to Live documentary screening"></div>
     </div>
   </dialog>
 
@@ -918,7 +918,7 @@
     const heroCaption = heroMedia?.querySelector('.hero-caption');
 
     if (!reduceMotion && heroMedia && heroImage && heroCaption) {
-      const gallerySlides = [...document.querySelectorAll('.dialog-gallery img')].map(image => ({
+      const gallerySlides = [...document.querySelectorAll('.dialog-gallery img:not([data-hero-exclude])')].map(image => ({
         src: image.getAttribute('src'),
         alt: image.getAttribute('alt') || '',
         caption: image.closest('dialog')?.querySelector('h2')?.textContent.trim() || 'Prokofiev Studio'
