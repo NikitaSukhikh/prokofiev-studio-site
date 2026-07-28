@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prokofiev Studio is a creative space in Hackney dedicated to the artistic legacy of the Prokofiev family.">
+  <meta name="theme-color" content="#f1efe8">
+  <title>Prokofiev Studio — Hackney, London</title>
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #161616;
+      --red: #e43b24;
+      --muted: #686761;
+      --line: rgba(22, 22, 22, .28);
+      --pad: clamp(1rem, 3vw, 3rem);
+      --max: 1600px;
+      --sans: Arial, Helvetica, sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.menu-open, body:has(dialog[open]) { overflow: hidden; }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-underline-offset: .22em; }
+    button { color: inherit; font: inherit; }
+    p { margin: 0 0 1em; }
+    h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: .95; letter-spacing: -.045em; }
+    :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+    ::selection { color: var(--paper); background: var(--red); }
+
+    .skip-link {
+      position: fixed; top: .75rem; left: .75rem; z-index: 200;
+      padding: .65rem .8rem; transform: translateY(-150%);
+      background: var(--ink); color: white;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .shell { width: min(100%, var(--max)); margin-inline: auto; padding-inline: var(--pad); }
+    .rule { border-top: 1px solid var(--ink); }
+    .eyebrow {
+      margin: 0;
+      font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    }
+    .section-heading {
+      padding: 1rem 0 1.5rem;
+      display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    }
+    .section-heading h2 { font-size: clamp(2.7rem, 7vw, 7.5rem); }
+    .section-heading .index { color: var(--red); font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
+    .text-link {
+      display: inline-block; border-bottom: 1px solid currentColor;
+      text-decoration: none; font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    }
+    .text-link:hover { color: var(--red); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--paper) 94%, transparent);
+      border-bottom: 1px solid var(--ink); backdrop-filter: blur(12px);
+    }
+    .header-inner { min-height: 78px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; }
+    .brand { display: inline-flex; align-items: center; width: fit-content; text-decoration: none; }
+    .brand-logo { width: 124px; height: auto; }
+    .nav { display: flex; gap: clamp(1rem, 2vw, 2rem); align-items: center; }
+    .nav a { text-decoration: none; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .nav a:hover { color: var(--red); }
+    .menu-toggle { display: none; border: 0; padding: .4rem 0; background: transparent; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .hero { min-height: calc(100svh - 78px); display: grid; grid-template-columns: minmax(0, .83fr) minmax(0, 1.17fr); }
+    .hero-copy { padding: clamp(2rem, 5vw, 5rem) var(--pad); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
+    .hero-copy h1 { max-width: 8ch; font-size: clamp(4rem, 8.5vw, 10rem); }
+    .hero-copy h1 span { display: block; color: var(--red); }
+    .hero-intro { max-width: 37rem; }
+    .hero-intro p { font-family: var(--serif); font-size: clamp(1.25rem, 2vw, 2rem); line-height: 1.25; }
+    .hero-actions { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .hero-media { min-height: 620px; position: relative; overflow: hidden; background: #ddd; }
+    .hero-media img { height: 100%; object-fit: cover; object-position: center; filter: saturate(.86); }
+    .hero-media .hero-slide {
+      position: absolute; inset: 0; opacity: 0; transform: scale(1.015);
+      transition: opacity 2.2s ease, transform 7s ease;
+      will-change: opacity, transform;
+    }
+    .hero-media .hero-slide.is-active { opacity: 1; transform: scale(1); }
+    .hero-caption {
+      position: absolute; right: 0; bottom: 0; z-index: 2; padding: .65rem .8rem;
+      background: var(--paper); font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .ticker { overflow: hidden; border-block: 1px solid var(--ink); background: var(--red); color: white; }
+    .ticker-track { width: max-content; display: flex; gap: 2rem; padding: .65rem 0; animation: ticker 28s linear infinite; }
+    .ticker span { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .ticker span::after { content: "✳"; padding-left: 2rem; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    section[id] { scroll-margin-top: 78px; }
+    .current { padding-block: clamp(4rem, 9vw, 9rem); }
+    .feature { display: grid; grid-template-columns: 1.25fr .75fr; border-top: 1px solid var(--ink); }
+    .feature-media { min-height: 700px; overflow: hidden; }
+    .feature-media img { height: 100%; object-fit: cover; }
+    .feature-copy { padding: clamp(1.5rem, 4vw, 4rem); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
+    .status { display: flex; align-items: center; gap: .55rem; color: var(--red); font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .status::before { content: ""; width: .6rem; aspect-ratio: 1; border-radius: 50%; background: currentColor; }
+    .feature h3 { max-width: 8ch; margin: .8rem 0 1.2rem; font-size: clamp(3.4rem, 7vw, 8rem); }
+    .feature .dates { font-family: var(--serif); font-size: clamp(1.25rem, 2vw, 2rem); }
+    .feature .summary { max-width: 32rem; font-size: 1rem; }
+    .button {
+      width: fit-content; min-height: 46px; padding: .75rem 1rem;
+      border: 1px solid var(--ink); background: transparent;
+      display: inline-flex; align-items: center; gap: 1.8rem;
+      text-decoration: none; cursor: pointer;
+      font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      transition: .2s ease;
+    }
+    .button::after { content: "↗"; font-size: 1rem; }
+    .button:hover { background: var(--ink); color: var(--paper); }
+
+    .programme { padding-bottom: clamp(4rem, 9vw, 9rem); }
+    .card-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--pad); }
+    .card { grid-column: span 4; border-top: 1px solid var(--ink); }
+    .card:nth-child(4), .card:nth-child(5) { grid-column: span 6; }
+    .card-image { position: relative; aspect-ratio: 4 / 3; margin: .75rem 0 1rem; overflow: hidden; background: #ddd; }
+    .card-image img { height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+    .card:hover .card-image img { transform: scale(1.025); }
+    .card-meta { display: flex; justify-content: space-between; gap: 1rem; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+    .card h3 { margin: .65rem 0 .75rem; font-size: clamp(1.8rem, 3vw, 3.25rem); }
+    .card p { max-width: 42rem; color: var(--muted); }
+    .card button { border: 0; border-bottom: 1px solid; padding: 0 0 .15rem; background: none; cursor: pointer; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .card button:hover { color: var(--red); }
+
+    .events { padding-block: clamp(4rem, 9vw, 9rem); background: var(--paper); color: var(--ink); }
+    .event-filters {
+      margin: -.55rem 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-family: var(--sans);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .event-filters button {
+      border: 0;
+      border-bottom: 1px solid transparent;
+      padding: 0 0 .08em;
+      background: transparent;
+      cursor: pointer;
+    }
+    .event-filters button:hover,
+    .event-filters button[aria-pressed="true"] {
+      border-bottom-color: currentColor;
+      color: var(--red);
+    }
+    .event-filters .separator { color: var(--muted); }
+    .event-filter-empty,
+    .exhibition-filter-empty {
+      grid-column: 1 / -1;
+      margin: 0;
+      padding-block: 1rem;
+      border-top: 1px solid var(--ink);
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+    }
+    .event-placeholder {
+      padding: clamp(1.25rem, 3vw, 2.5rem);
+      background: var(--red);
+      color: white;
+      display: flex;
+      align-items: flex-end;
+    }
+    .event-placeholder span {
+      font-size: clamp(2.3rem, 4.5vw, 5.2rem);
+      font-weight: 700;
+      line-height: .82;
+      letter-spacing: -.06em;
+      text-transform: uppercase;
+    }
+
+    .about { padding-block: clamp(4rem, 9vw, 9rem); }
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 8vw, 9rem); align-items: start; }
+    .about-title { position: sticky; top: 110px; }
+    .about-title h2 { margin-top: 1rem; font-size: clamp(3.3rem, 7vw, 7.5rem); }
+    .about-copy .lead { font-family: var(--serif); font-size: clamp(1.55rem, 2.6vw, 2.75rem); line-height: 1.2; }
+    .about-copy .columns { columns: 2 280px; column-gap: 3rem; color: #34332f; }
+    .about-portraits { margin-top: clamp(2rem, 6vw, 6rem); display: grid; grid-template-columns: 1fr 1fr; gap: var(--pad); }
+    .portrait { margin: 0; }
+    .portrait img { aspect-ratio: 4 / 3; object-fit: cover; filter: grayscale(1); }
+    .portrait figcaption { padding-top: .65rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    .legacy { display: grid; grid-template-columns: 1.1fr .9fr; background: #d8d3c8; color: var(--ink); }
+    .legacy-media { min-height: 760px; overflow: hidden; }
+    .legacy-media img { height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); }
+    .legacy-copy { padding: clamp(2rem, 6vw, 6rem); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
+    .legacy-copy h2 { max-width: 6ch; font-size: clamp(4rem, 8vw, 9rem); }
+    .legacy-copy .lead { font-family: var(--serif); font-size: clamp(1.35rem, 2.2vw, 2.25rem); line-height: 1.2; }
+    .legacy-copy a { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .press { padding-block: clamp(4rem, 9vw, 9rem); }
+    .press-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--pad); }
+    .press-card {
+      grid-column: span 4;
+      border-top: 1px solid var(--ink);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .press-card:nth-child(4),
+    .press-card:nth-child(5) { grid-column: span 6; }
+    .press-card-image {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      margin: .75rem 0 1rem;
+      overflow: hidden;
+      background: #ddd;
+    }
+    .press-card-image img { height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+    .press-card .card-meta { color: var(--muted); }
+    .press-card h3 { margin: .65rem 0 .75rem; font-size: clamp(1.45rem, 2.2vw, 2.4rem); line-height: 1; }
+    .press-card-byline { margin: 0 0 .85rem; color: var(--muted); font-family: var(--serif); font-size: .9rem; }
+    .press-card-action {
+      display: inline-block;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: .15rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .press-card:hover { color: var(--red); }
+    .press-card:hover .press-card-image img { transform: scale(1.025); }
+
+    .visit { padding-block: clamp(4rem, 9vw, 9rem); }
+    .visit-grid { display: grid; grid-template-columns: 1.1fr .9fr; border-top: 1px solid var(--ink); }
+    .visit-address { padding: clamp(2rem, 5vw, 5rem) var(--pad) 2rem 0; }
+    .visit-address h2 { max-width: 8ch; font-size: clamp(3.3rem, 7vw, 7.5rem); }
+    .address { margin: 2rem 0; font-family: var(--serif); font-size: clamp(1.35rem, 2.4vw, 2.5rem); font-style: normal; line-height: 1.2; }
+    .visit-note { max-width: 34rem; color: var(--muted); }
+    .contact-panel { padding: clamp(2rem, 5vw, 5rem); border-left: 1px solid var(--ink); }
+    .contact-panel h3 { margin: .75rem 0 1.75rem; font-size: clamp(2.2rem, 4vw, 4.5rem); }
+    .contact-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+    .contact-list a, .contact-list span { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--line); text-decoration: none; overflow-wrap: anywhere; }
+    .contact-list a:hover { color: var(--red); }
+
+    footer { background: var(--ink); color: var(--paper); }
+    .footer-top { padding-block: clamp(3rem, 7vw, 7rem); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+    .footer-logo { width: clamp(180px, 28vw, 380px); height: auto; filter: invert(1); }
+    .footer-nav { display: grid; gap: .5rem; text-align: right; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .footer-nav a { text-decoration: none; }
+    .footer-nav a:hover { color: var(--red); }
+    .footer-bottom { padding: 1rem 0 1.5rem; border-top: 1px solid rgba(241,239,232,.4); display: flex; justify-content: space-between; gap: 1rem; color: #aaa9a3; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    dialog { width: min(920px, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); margin: auto; padding: 0; border: 0; background: var(--paper); color: var(--ink); box-shadow: 0 2rem 7rem rgba(0,0,0,.4); }
+    dialog::backdrop { background: rgba(10,10,10,.76); backdrop-filter: blur(5px); }
+    .dialog-head { position: sticky; top: 0; z-index: 2; padding: .85rem 1rem; border-bottom: 1px solid var(--ink); background: var(--paper); display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+    .dialog-head span { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .dialog-close { width: 2rem; aspect-ratio: 1; border: 1px solid var(--ink); border-radius: 50%; background: transparent; cursor: pointer; font-size: 1.2rem; line-height: 1; }
+    .dialog-close:hover { background: var(--ink); color: var(--paper); }
+    .dialog-body { padding: clamp(1.25rem, 4vw, 3.5rem); }
+    .dialog-body h2 { margin: .6rem 0 1rem; font-size: clamp(2.6rem, 7vw, 6rem); }
+    .dialog-meta { margin-bottom: 2rem; color: var(--red); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .dialog-copy { max-width: 680px; margin-inline: auto; font-family: var(--serif); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.55; }
+    .dialog-copy .credits { font-family: var(--sans); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    .dialog-gallery { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .dialog-gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
+    .dialog-gallery img:first-child:last-child { grid-column: 1 / -1; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 980px) {
+      .nav { position: fixed; inset: 78px 0 auto; padding: 2rem var(--pad) 3rem; background: var(--paper); border-bottom: 1px solid var(--ink); display: none; flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+      .nav.open { display: flex; }
+      .nav a { font-size: 1.3rem; }
+      .header-inner { position: relative; }
+      .menu-toggle { position: absolute; right: 0; top: 50%; display: block; transform: translateY(-50%); }
+      .hero { min-height: auto; grid-template-columns: 1fr; }
+      .hero-copy { min-height: 600px; }
+      .hero-media { min-height: 70vw; }
+      .feature, .legacy, .visit-grid { grid-template-columns: 1fr; }
+      .feature-media, .legacy-media { min-height: 65vw; }
+      .feature-copy, .contact-panel { border-left: 0; border-top: 1px solid var(--ink); }
+      .card { grid-column: span 6; }
+      .card:nth-child(5) { grid-column: span 12; }
+      .press-card { grid-column: span 6; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-title { position: static; }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner { min-height: 68px; }
+      .brand-logo { width: 108px; }
+      .nav { top: 68px; }
+      .hero-copy { min-height: 520px; }
+      .hero-copy h1 { font-size: clamp(3.5rem, 17vw, 5rem); }
+      .hero-intro p { font-size: 1.18rem; }
+      .hero-media { min-height: 100vw; }
+      .section-heading { align-items: flex-end; }
+      .feature-media, .legacy-media { min-height: 105vw; }
+      .feature h3 { font-size: 3.6rem; }
+      .card-grid { display: block; }
+      .card { margin-bottom: 3rem; }
+      .events .card { grid-column: span 6; }
+      .events .card:last-child { grid-column: span 12; }
+      .about-portraits { grid-template-columns: 1fr; }
+      .press-grid { display: block; }
+      .press-card { display: block; margin-bottom: 3rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-nav { text-align: left; }
+      .footer-bottom { flex-direction: column; }
+      .dialog-gallery { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#home" aria-label="Prokofiev Studio home">
+        <img class="brand-logo" src="public/brand_images/Brand_logo_short_transparent.png" alt="Prokofiev Studio">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="nav" id="site-nav" aria-label="Main navigation">
+        <a href="#exhibitions">Exhibitions</a>
+        <a href="#events">Events</a>
+        <a href="#about">About</a>
+        <a href="#legacy">Legacy</a>
+        <a href="#press">Press</a>
+        <a href="#visit">Visit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div>
+          <p class="eyebrow">Hackney, London · Est. 2026</p>
+          <h1 id="hero-title">Prokofiev <span>Studio</span></h1>
+        </div>
+        <div class="hero-intro">
+          <p>A living cultural space where exhibitions, performance and interdisciplinary encounters connect artistic legacy with contemporary practice.</p>
+          <div class="hero-actions">
+            <a class="text-link" href="#now-on">Current exhibition</a>
+            <a class="text-link" href="#visit">Plan your visit</a>
+          </div>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <img class="hero-slide is-active" src="Website - Prokofiev Studio/00_MAIN PAGE - Short description + about/BT13.jpg" alt="Oleg Prokofiev sculptures installed across the walls of Prokofiev Studio">
+        <figcaption class="hero-caption">Prokofiev Studio, Hackney</figcaption>
+      </figure>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Art</span><span>Music</span><span>Performance</span><span>Archive</span><span>Dialogue</span><span>Hackney</span>
+        <span>Art</span><span>Music</span><span>Performance</span><span>Archive</span><span>Dialogue</span><span>Hackney</span>
+      </div>
+    </div>
+
+    <section class="current shell" id="now-on" aria-labelledby="current-title">
+      <div class="section-heading rule reveal">
+        <h2 id="current-title">Now on</h2>
+        <span class="index">01 / Exhibitions</span>
+      </div>
+      <article class="feature reveal">
+        <div class="feature-media">
+          <img src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/1.jpg" alt="Installation view of Beyond the Line with striped paintings and sculptural works by Oleg Prokofiev">
+        </div>
+        <div class="feature-copy">
+          <div>
+            <p class="status">Current exhibition</p>
+            <h3>Beyond the Line</h3>
+            <p class="dates">July — September 2026</p>
+          </div>
+          <div>
+            <p class="summary">A solo exhibition exploring the decisive moment when drawing, painting and sculpture began to dissolve into one another through Oleg Prokofiev’s radical use of line, colour and space.</p>
+            <p class="eyebrow" style="margin: 0 0 1.4rem">Curated by Anzhela Popova</p>
+            <button class="button" type="button" data-dialog="beyond-dialog">Read exhibition</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="programme shell" id="exhibitions" aria-labelledby="programme-title">
+      <div class="section-heading rule reveal">
+        <h2 id="programme-title">Exhibitions</h2>
+        <span class="index">2026 programme</span>
+      </div>
+      <div class="event-filters reveal" role="group" aria-label="Filter exhibitions">
+        <button type="button" data-exhibition-filter="current" aria-pressed="false">CURRENT</button>
+        <span class="separator" aria-hidden="true">/</span>
+        <button type="button" data-exhibition-filter="upcoming" aria-pressed="false">UPCOMING</button>
+        <span class="separator" aria-hidden="true">/</span>
+        <button type="button" data-exhibition-filter="recent" aria-pressed="false">RECENT</button>
+      </div>
+      <div class="card-grid" data-exhibition-list>
+        <article class="card reveal" data-start-date="2026-06-12" data-end-date="2026-06-20">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7665_JFH.jpg" alt="Installation view of the group exhibition Yield"></div>
+          <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-12">12—20 June 2026</time></div>
+          <h3>Yield</h3>
+          <p>Works responding to pressure through tension, resilience, fragility and change.</p>
+          <button type="button" data-dialog="yield-dialog">View exhibition ↗</button>
+        </article>
+
+        <article class="card reveal" data-start-date="2026-06-01" data-end-date="2026-06-14">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4743_JFH.jpg" alt="Installation view of Pink Chaos during Hackney Art Week"></div>
+          <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-01">1—14 June 2026</time></div>
+          <h3>Pink Chaos</h3>
+          <p>More than thirty artists and one hundred works brought together for Hackney Art Week.</p>
+          <button type="button" data-dialog="pink-dialog">View exhibition ↗</button>
+        </article>
+
+        <article class="card reveal" data-start-date="2026-05-01" data-end-date="2026-05-29">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT1.jpg" alt="Installation view of Bending Time with archival and sculptural works"></div>
+          <div class="card-meta"><span>Group exhibition</span><time datetime="2026-05-01">1—29 May 2026</time></div>
+          <h3>Bending Time</h3>
+          <p>An archive understood as a living, generative system of memory, material and form.</p>
+          <button type="button" data-dialog="bending-dialog">View exhibition ↗</button>
+        </article>
+
+        <article class="card reveal" data-start-date="2026-02-13" data-end-date="2026-02-27">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/670011112_17910870624377763_8143524004252690779_n.jpg" alt="Installation view from Composing Space"></div>
+          <div class="card-meta"><span>Solo exhibition</span><time datetime="2026-02-13">13—27 February 2026</time></div>
+          <h3>Composing Space</h3>
+          <p>Oleg Prokofiev’s rhythm of shapes: where line leaves the page and becomes sculpture.</p>
+          <button type="button" data-dialog="composing-dialog">View exhibition ↗</button>
+        </article>
+
+        <article class="card reveal" data-start-date="2026-07-01" data-end-date="2026-09-30">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/IMG_9623.JPG" alt="Visitors at the Beyond the Line exhibition"></div>
+          <div class="card-meta"><span>In focus</span><span>Oleg Prokofiev</span></div>
+          <h3>Line becomes structure</h3>
+          <p>Colour activates the surface while space becomes part of the work itself.</p>
+          <button type="button" data-dialog="beyond-dialog">Read the story ↗</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="events" id="events" aria-labelledby="events-title">
+      <div class="shell">
+        <div class="section-heading rule reveal">
+          <h2 id="events-title">Events</h2>
+          <span class="index">02 / Events</span>
+        </div>
+        <div class="event-filters reveal" role="group" aria-label="Filter events">
+          <button type="button" data-event-filter="current" aria-pressed="false">CURRENT</button>
+          <span class="separator" aria-hidden="true">/</span>
+          <button type="button" data-event-filter="upcoming" aria-pressed="false">UPCOMING</button>
+          <span class="separator" aria-hidden="true">/</span>
+          <button type="button" data-event-filter="recent" aria-pressed="false">RECENT</button>
+        </div>
+        <div class="card-grid" data-event-list>
+          <article class="card reveal">
+            <div class="card-image">
+              <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman at the Oleg Prokofiev poetry evening">
+            </div>
+            <div class="card-meta"><span>Poetry</span><time datetime="2026-07-08">8 July 2026</time></div>
+            <h3>Poetry Evening: Oleg Prokofiev</h3>
+            <p>Gabriel Prokofiev and Maria Bregman bring the artist’s imagistic, fragmentary literary voice into dialogue with his visual legacy.</p>
+            <button type="button" data-dialog="poetry-dialog">View event ↗</button>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-image event-placeholder" aria-hidden="true"><span>SIFFA<br>Masterclass</span></div>
+            <div class="card-meta"><span>Film &amp; music</span><time datetime="2026-05-30">30 May 2026</time></div>
+            <h3>The Sun of Prokofiev</h3>
+            <p>Filmmaker Richard Belfield and Gabriel Prokofiev explore the art of bringing a legendary composer to the screen.</p>
+            <button type="button" data-dialog="siffa-dialog">View event ↗</button>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-image">
+              <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the documentary screening I Choose to Live">
+            </div>
+            <div class="card-meta"><span>Screening</span><time datetime="2026-04-23">23 April 2026</time></div>
+            <h3>I Choose to Live</h3>
+            <p>Maria Bregman’s documentary portrait of poet Lydia Grigorieva, moving between memory, loss and a flourishing inner world.</p>
+            <button type="button" data-dialog="screening-dialog">View event ↗</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about shell" id="about" aria-labelledby="about-title">
+      <div class="about-grid">
+        <div class="about-title reveal">
+          <p class="eyebrow">03 / About</p>
+          <h2 id="about-title">A living cultural organism.</h2>
+        </div>
+        <div class="about-copy reveal">
+          <p class="lead">Prokofiev Studio is a creative space in the heart of Hackney, dedicated to preserving and reimagining the artistic legacy of the Prokofiev family.</p>
+          <div class="columns">
+            <p>Rooted in a remarkable archive while embracing contemporary practice, the studio serves as a place for visual art, music, performance and interdisciplinary dialogue.</p>
+            <p>At its core is an important collection of works by artist <a href="https://www.olegprokofiev.com/" target="_blank" rel="noopener">Oleg Prokofiev</a>, whose paintings, sculptures and works on paper form the foundation of the programme. Alongside this visual heritage is an active musical environment shaped by composer <a href="https://www.gabrielprokofiev.com/" target="_blank" rel="noopener">Gabriel Prokofiev</a>.</p>
+            <p>Historical archives inspire new ideas as artists, musicians, writers and audiences come together through exhibitions, concerts, talks, workshops and experimental projects.</p>
+            <p>The programme is curated by <a href="https://anzhelacurator.taplink.ws/" target="_blank" rel="noopener">Anzhela Popova</a>, bringing archival research, contemporary practice and international cultural dialogue into conversation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-portraits reveal">
+        <figure class="portrait">
+          <img loading="lazy" src="Website - Prokofiev Studio/00_MAIN PAGE - Short description + about/06_IMG_9070.JPG" alt="Anzhela Popova in Prokofiev Studio">
+          <figcaption>Anzhela Popova · Studio Curator</figcaption>
+        </figure>
+        <figure class="portrait">
+          <img loading="lazy" src="Website - Prokofiev Studio/00_MAIN PAGE - Short description + about/03_IMG_9060.JPG" alt="Gabriel Prokofiev in Prokofiev Studio">
+          <figcaption>Gabriel Prokofiev · Composer</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="legacy" id="legacy" aria-labelledby="legacy-title">
+      <div class="legacy-media">
+        <img loading="lazy" src="Website - Prokofiev Studio/02_LEGACY/22.jpg" alt="Archival view connected to the life and work of Oleg Prokofiev">
+      </div>
+      <div class="legacy-copy reveal">
+        <div>
+          <p class="eyebrow">04 / Legacy</p>
+          <h2 id="legacy-title">Past, in motion.</h2>
+        </div>
+        <div>
+          <p class="lead">The studio holds a significant collection of Oleg Prokofiev’s paintings, sculptures, drawings and previously unseen archival material.</p>
+          <p>For fifteen years, this body of work remained stored in a barn in Norfolk, hidden from public view. It has now been relocated to London. Legacy here is not only about preservation — it is about continuity, using history as a catalyst for new ideas.</p>
+          <p>The Prokofiev legacy continues through Gabriel Prokofiev, composer, producer and founder of the independent record label Nonclassical.</p>
+          <a href="https://www.olegprokofiev.com/" target="_blank" rel="noopener">Explore Oleg Prokofiev ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="press shell" id="press" aria-labelledby="press-title">
+      <div class="section-heading rule reveal">
+        <h2 id="press-title">Press</h2>
+        <span class="index">05 / Press</span>
+      </div>
+      <div class="press-grid">
+        <a class="press-card reveal" href="https://www.theartnewspaper.com/2026/04/30/new-space-dedicated-to-oleg-prokofievwhose-abstract-works-were-censored-by-soviet-russiaopens-in-london" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/the-art-newspaper.jpg" alt="Oleg Prokofiev in his London studio, surrounded by wooden sculptures"></div>
+          <div class="card-meta"><span>The Art Newspaper</span><time datetime="2026-04-30">30 April 2026</time></div>
+          <h3>New space dedicated to Oleg Prokofiev—whose abstract art was censored by Soviet Russia—opens in London</h3>
+          <p class="press-card-byline">By Joe Ware</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://artfocusnow.com/news/prokofiev-studio-revives-the-legacy-of-russia-born-artist-in-london/" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/art-focus-now.jpg" alt="Installation view of the Bending Time exhibition"></div>
+          <div class="card-meta"><span>Art Focus Now</span><time datetime="2026-05-12">12 May 2026</time></div>
+          <h3>Prokofiev Studio Revives the Legacy of Russia-born Artist in London</h3>
+          <p class="press-card-byline">By Il Gurn</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://news.artnet.com/art-world/oleg-prokofiev-studio-london-2769677" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/artnet.jpg" alt="Oleg Prokofiev seated among sculptures in his London studio"></div>
+          <div class="card-meta"><span>Artnet</span><time datetime="2026-05-01">1 May 2026</time></div>
+          <h3>Oleg Prokofiev’s Lost Trove of Paintings Comes to Light After Decades in Hiding</h3>
+          <p class="press-card-byline">By Richard Whiddington</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://artculture.uk/prokofiev-studio-gallery-in-london-open/" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/art-culture-uk.jpg" alt="Oleg Prokofiev seated among his wooden sculptures"></div>
+          <div class="card-meta"><span>Art Culture UK</span><time datetime="2026-04-17">17 April 2026</time></div>
+          <h3>Prokofiev Studio Gallery is Now Open in London</h3>
+          <p class="press-card-byline">By Maria Bregman</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://www.metropol.world/e/4121" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/metropol.jpg" alt="Bending Time group exhibition poster"></div>
+          <div class="card-meta"><span>Metropol</span><time datetime="2026-04-30">30 April 2026</time></div>
+          <h3>Bending Time</h3>
+          <p class="press-card-byline">By @metropol</p>
+          <span class="press-card-action">View listing ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://www.ikonlondonmagazine.com/beyond-the-line-oleg-prokofiev-prokofiev-studio/" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/ikon-london.jpg" alt="Oleg Prokofiev’s red and blue Oval Manhattan sculpture"></div>
+          <div class="card-meta"><span>Ikon London Magazine</span><time datetime="2026-07-23">23 July 2026</time></div>
+          <h3>Beyond the Line: Oleg Prokofiev’s New York Years at Prokofiev Studio</h3>
+          <p class="press-card-byline">By Elena Leo</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://artlyst.com/hackney-art-week-2026-returns-across-60-venues-artlyst-guide/" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/artlyst.jpg" alt="Hackney Wick station platform at night"></div>
+          <div class="card-meta"><span>Artlyst</span><time datetime="2026-06-03">3 June 2026</time></div>
+          <h3>Hackney Art Week 2026 Returns Across 60 Venues — Artlyst Guide</h3>
+          <p class="press-card-byline">By News Desk</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+        <a class="press-card reveal" href="https://fadmagazine.com/2026/06/02/hackney-art-week-2026/" target="_blank" rel="noopener">
+          <div class="press-card-image"><img loading="lazy" src="public/press_images/fad-magazine.jpg" alt="Painting of the Morland Estate shown for Hackney Art Week"></div>
+          <div class="card-meta"><span>FAD Magazine</span><time datetime="2026-06-02">2 June 2026</time></div>
+          <h3>Hackney Art Week returns with 130 artists across 60 venues</h3>
+          <p class="press-card-byline">By Mark Westall</p>
+          <span class="press-card-action">Read article ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="visit shell" id="visit" aria-labelledby="visit-title">
+      <div class="visit-grid reveal">
+        <div class="visit-address">
+          <p class="eyebrow">06 / Visit</p>
+          <h2 id="visit-title">Find us in Hackney.</h2>
+          <address class="address">Unit 6<br>13 Ramsgate Street<br>London E8 2FD<br>United Kingdom</address>
+          <p class="visit-note">Visits, collaborations and project enquiries are warmly welcomed. Please contact the studio ahead of your visit to confirm access and opening arrangements.</p>
+          <a class="button" href="https://www.google.com/maps/search/?api=1&amp;query=13+Ramsgate+Street+London+E8+2FD" target="_blank" rel="noopener">Open in maps</a>
+        </div>
+        <div class="contact-panel">
+          <p class="eyebrow">Contact</p>
+          <h3>Start a conversation.</h3>
+          <p>We welcome collaborations with museums, galleries, cultural institutions and creative organisations, as well as external exhibitions, events and artistic initiatives.</p>
+          <ul class="contact-list">
+            <li><a href="mailto:anzhelacurator@gmail.com"><span>Email</span><span>anzhelacurator@gmail.com ↗</span></a></li>
+            <li><a href="tel:+447825487663"><span>Phone</span><span>+44 7825 487663 ↗</span></a></li>
+            <li><a href="https://www.instagram.com/prokofievstudio/" target="_blank" rel="noopener"><span>Instagram</span><span>@prokofievstudio ↗</span></a></li>
+            <li><span><span>Curator</span><span>Anzhela Popova</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-top">
+      <img class="footer-logo" src="public/brand_images/Brand_logo_short_transparent.png" alt="Prokofiev Studio">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="#home">Back to top ↑</a>
+        <a href="#exhibitions">Exhibitions</a>
+        <a href="#events">Events</a>
+        <a href="#about">About</a>
+        <a href="#visit">Visit</a>
+      </nav>
+    </div>
+    <div class="shell footer-bottom"><span>© 2026 Prokofiev Studio</span><span>Hackney · London</span></div>
+  </footer>
+
+  <dialog id="beyond-dialog" aria-labelledby="beyond-title">
+    <div class="dialog-head"><span>Exhibition · Current</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Solo exhibition by Oleg Prokofiev</p>
+      <h2 id="beyond-title">Beyond the Line</h2>
+      <p class="dialog-meta">July — September 2026 · Curated by Anzhela Popova</p>
+      <div class="dialog-copy">
+        <p>Beyond the Line explores a decisive moment in Oleg Prokofiev’s artistic evolution, when drawing, painting and sculpture began to dissolve into one another through an increasingly radical exploration of line, colour and space.</p>
+        <p>The exhibition focuses on work created after Prokofiev’s first visit to the United States in 1977–78. New York’s verticality, energy and architectural rhythm inspired the remarkable series of drawings titled <em>Stripes</em>, while encounters with abstract painting on an unprecedented scale encouraged a new confidence in reduction, colour and formal clarity.</p>
+        <p>After returning, Prokofiev developed a language in which colour became an active structural force. This search extended naturally into sculpture. Wood became his principal medium for investigating form in three dimensions: an orchestration of movement, balance and void where empty space matters as much as material.</p>
+        <p>The exhibition reveals the pivotal transition where line becomes structure, colour becomes space and sculpture becomes a living choreography of balance and motion.</p>
+      </div>
+      <div class="dialog-gallery">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/13.jpg" alt="Installation view of Beyond the Line">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/28.jpg" alt="Oleg Prokofiev works shown in Beyond the Line">
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="yield-dialog" aria-labelledby="yield-title">
+    <div class="dialog-head"><span>Exhibition · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Group exhibition during Hackney Art Week</p>
+      <h2 id="yield-title">Yield</h2>
+      <p class="dialog-meta">12—20 June 2026 · Curated by Caroline McCambridge &amp; Aileen Kelly</p>
+      <div class="dialog-copy">
+        <p class="credits">Aileen Kelly · Alex Heim · Ana Genovés · Aya Fukami · Belinda Worsley · Caroline McCambridge · Jasone Miranda-Bilbao · Martina O’Shea · Ornela Novello · Tessa Garland</p>
+        <p>Yield explores what it means to bend, adapt, accommodate or give way in response to the pressures around us. Through a range of materials and approaches, it reflects on how tension, resilience, fragility and change shape everyday life.</p>
+        <p>Rather than seeing yielding as weakness or surrender, the exhibition approaches it as a form of responsiveness — a way of remaining open and adaptable within changing conditions.</p>
+      </div>
+      <div class="dialog-gallery">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7679_JFH.jpg" alt="Artworks installed in Yield">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7696_JFH.jpg" alt="Visitor viewing the Yield exhibition">
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="pink-dialog" aria-labelledby="pink-title">
+    <div class="dialog-head"><span>Exhibition · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Group exhibition during Hackney Art Week</p>
+      <h2 id="pink-title">Pink Chaos</h2>
+      <p class="dialog-meta">1—14 June 2026 · Curated by Mei Hui Liu</p>
+      <div class="dialog-copy">
+        <p>More than thirty artists and one hundred artworks filled Prokofiev Studio in a maximal group exhibition for Hackney Art Week.</p>
+        <p class="credits">Andrew Logan · Astrid Grosser · Babak Ganjei · Charlotte Colbert · Daniel Lismore · Dora Holzhandler · Louise Boughton · Mei Hui Liu · Misha Milovanovich · Oleg Prokofiev · Pandemonia · Philip Colbert · Patrick Wolf · Roxana Halls · Tatty Devine · and many more.</p>
+      </div>
+      <div class="dialog-gallery">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A5022_JFH.jpg" alt="Installation view of Pink Chaos">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A5188_JFH.jpg" alt="Visitor at Pink Chaos">
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="bending-dialog" aria-labelledby="bending-title">
+    <div class="dialog-head"><span>Exhibition · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Oleg Prokofiev · Valentino Vannini · Kirill Basalaev</p>
+      <h2 id="bending-title">Bending Time</h2>
+      <p class="dialog-meta">1—29 May 2026 · Curated by Anzhela Popova</p>
+      <div class="dialog-copy">
+        <p>Bending Time is structured around the archive — understood not as a static repository, but as a living, generative system through which artistic legacies are continuously reactivated and brought into the present.</p>
+        <p>At its core is a reconstruction of Oleg Prokofiev’s 1990s studio on Dace Road in Hackney Wick. His wooden sculptures are encountered as part of an ongoing process, developed through the principle he described as the “line in space”.</p>
+        <p>Works by Valentino Vannini and Kirill Basalaev expand the framework through shared concerns with materiality, temporality and transformation. The result is not a stable narrative but a shifting constellation where the past is reactivated and meaning remains in motion.</p>
+      </div>
+      <div class="dialog-gallery">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT13.jpg" alt="Sculptures installed in Bending Time">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8590.JPG" alt="Visitors inside the Bending Time exhibition">
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="composing-dialog" aria-labelledby="composing-title">
+    <div class="dialog-head"><span>Exhibition · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Solo exhibition by Oleg Prokofiev</p>
+      <h2 id="composing-title">Composing Space</h2>
+      <p class="dialog-meta">13—27 February 2026 · Curated by Anzhela Popova</p>
+      <div class="dialog-copy">
+        <p>The exhibition traces how New York transformed Oleg Prokofiev’s artistic language in 1977. The city’s scale and verticality, together with encounters with Rothko, Still, Sol LeWitt, Motherwell, Newman and Frankenthaler, led to stronger colours and a new approach to painting and drawing.</p>
+        <p>This initiated a period of experimentation with wood, fragments of metal and found materials. Prokofiev called the result “line in space”: a tangible line free to move in any direction but always returning to its origin.</p>
+        <p>His drawings and sculptures follow a logic akin to musical composition, with rhythm emerging from the balance between order and controlled disruption.</p>
+      </div>
+      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/671876443_17911016166377763_5666103345694462869_n.jpg" alt="Works by Oleg Prokofiev in Composing Space"></div>
+    </div>
+  </dialog>
+
+  <dialog id="poetry-dialog" aria-labelledby="poetry-title">
+    <div class="dialog-head"><span>Event · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Poetry evening</p>
+      <h2 id="poetry-title">Oleg Prokofiev</h2>
+      <p class="dialog-meta">8 July 2026 · Read by Gabriel Prokofiev &amp; Maria Bregman</p>
+      <div class="dialog-copy">
+        <p>An evening dedicated to the poetry of Oleg Prokofiev, offering a rare opportunity to experience his literary voice alongside his artistic legacy.</p>
+        <p>Prokofiev left behind several hundred poems, all written in Russian and preserved within his family archive. His poetic language is imagistic and fragmentary, often resisting translation. Dispensing with punctuation, he relies on line breaks to shape meaning.</p>
+      </div>
+      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman reading at the Oleg Prokofiev poetry evening"></div>
+    </div>
+  </dialog>
+
+  <dialog id="siffa-dialog" aria-labelledby="siffa-title">
+    <div class="dialog-head"><span>Event · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">SIFFA masterclass</p>
+      <h2 id="siffa-title">The Sun of Prokofiev</h2>
+      <p class="dialog-meta">30 May 2026 · Richard Belfield with Gabriel Prokofiev</p>
+      <div class="dialog-copy">
+        <p>An exclusive masterclass exploring the world of Sergei Prokofiev and the art of bringing a legendary composer to the screen.</p>
+        <p>Led by filmmaker Richard Belfield and featuring special guest Gabriel Prokofiev, the session offered filmmakers, composers and arts audiences insight into the relationship between music and cinematic storytelling.</p>
+        <p><a href="https://www.siffa.media/" target="_blank" rel="noopener">Visit SIFFA ↗</a></p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="screening-dialog" aria-labelledby="screening-title">
+    <div class="dialog-head"><span>Event · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Documentary screening by Maria Bregman</p>
+      <h2 id="screening-title">I Choose to Live</h2>
+      <p class="dialog-meta">23 April 2026 · Duration 49 min</p>
+      <div class="dialog-copy">
+        <p><em>Lydia Grigorieva. I Choose to Live</em> opens in the poet’s London home and garden before travelling into memories of her childhood in the Far North. Grigorieva reads her poetry as archive footage evokes the 1960s “Thaw” and the writers around her.</p>
+        <p>Dedicated to the poet’s 80th anniversary, the film moves through personal loss while revealing an inner world where the earthly and eternal intertwine.</p>
+      </div>
+      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the I Choose to Live documentary screening"></div>
+    </div>
+  </dialog>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav');
+
+    function closeMenu() {
+      nav.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.textContent = 'Menu';
+    }
+
+    menuButton.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      document.body.classList.toggle('menu-open', open);
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.textContent = open ? 'Close' : 'Menu';
+    });
+
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    document.querySelectorAll('[data-dialog]').forEach(button => {
+      button.addEventListener('click', () => document.getElementById(button.dataset.dialog)?.showModal());
+    });
+
+    document.querySelectorAll('dialog').forEach(dialog => {
+      dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', event => {
+        const rect = dialog.getBoundingClientRect();
+        const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (!inside) dialog.close();
+      });
+    });
+
+    const eventFilters = document.querySelectorAll('[data-event-filter]');
+    const eventList = document.querySelector('[data-event-list]');
+    const eventCards = eventList ? [...eventList.querySelectorAll('.card')] : [];
+    let activeEventFilter = null;
+
+    const dateFromISO = value => {
+      const [year, month, day] = value.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    };
+
+    const getEventMode = card => {
+      const dateValue = card.querySelector('time[datetime]')?.dateTime;
+      if (!dateValue) return null;
+
+      const eventDate = dateFromISO(dateValue);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (eventDate.getTime() === today.getTime()) return 'current';
+      return eventDate > today ? 'upcoming' : 'recent';
+    };
+
+    const renderEventFilter = () => {
+      let visibleCount = 0;
+
+      eventFilters.forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.eventFilter === activeEventFilter));
+      });
+
+      eventCards.forEach(card => {
+        const visible = !activeEventFilter || getEventMode(card) === activeEventFilter;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      eventList?.querySelector('.event-filter-empty')?.remove();
+      if (eventList && activeEventFilter && visibleCount === 0) {
+        const emptyState = document.createElement('p');
+        emptyState.className = 'event-filter-empty';
+        emptyState.setAttribute('role', 'status');
+        emptyState.textContent = `No ${activeEventFilter} events at the moment.`;
+        eventList.append(emptyState);
+      }
+    };
+
+    eventFilters.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedFilter = button.dataset.eventFilter;
+        activeEventFilter = activeEventFilter === selectedFilter ? null : selectedFilter;
+        renderEventFilter();
+      });
+    });
+
+    const exhibitionFilters = document.querySelectorAll('[data-exhibition-filter]');
+    const exhibitionList = document.querySelector('[data-exhibition-list]');
+    const exhibitionCards = exhibitionList ? [...exhibitionList.querySelectorAll('.card')] : [];
+    let activeExhibitionFilter = null;
+
+    const getExhibitionMode = card => {
+      const startValue = card.dataset.startDate;
+      const endValue = card.dataset.endDate;
+      if (!startValue || !endValue) return null;
+
+      const startDate = dateFromISO(startValue);
+      const endDate = dateFromISO(endValue);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (today >= startDate && today <= endDate) return 'current';
+      return startDate > today ? 'upcoming' : 'recent';
+    };
+
+    const renderExhibitionFilter = () => {
+      let visibleCount = 0;
+
+      exhibitionFilters.forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.exhibitionFilter === activeExhibitionFilter));
+      });
+
+      exhibitionCards.forEach(card => {
+        const visible = !activeExhibitionFilter || getExhibitionMode(card) === activeExhibitionFilter;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      exhibitionList?.querySelector('.exhibition-filter-empty')?.remove();
+      if (exhibitionList && activeExhibitionFilter && visibleCount === 0) {
+        const emptyState = document.createElement('p');
+        emptyState.className = 'exhibition-filter-empty';
+        emptyState.setAttribute('role', 'status');
+        emptyState.textContent = `No ${activeExhibitionFilter} exhibitions at the moment.`;
+        exhibitionList.append(emptyState);
+      }
+    };
+
+    exhibitionFilters.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedFilter = button.dataset.exhibitionFilter;
+        activeExhibitionFilter = activeExhibitionFilter === selectedFilter ? null : selectedFilter;
+        renderExhibitionFilter();
+      });
+    });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const heroMedia = document.querySelector('.hero-media');
+    const heroImage = heroMedia?.querySelector('.hero-slide');
+    const heroCaption = heroMedia?.querySelector('.hero-caption');
+
+    if (!reduceMotion && heroMedia && heroImage && heroCaption) {
+      const gallerySlides = [...document.querySelectorAll('.dialog-gallery img')].map(image => ({
+        src: image.getAttribute('src'),
+        alt: image.getAttribute('alt') || '',
+        caption: image.closest('dialog')?.querySelector('h2')?.textContent.trim() || 'Prokofiev Studio'
+      }));
+      const slides = [{
+        src: heroImage.getAttribute('src'),
+        alt: heroImage.getAttribute('alt') || '',
+        caption: heroCaption.textContent.trim()
+      }, ...gallerySlides].filter((slide, index, all) =>
+        slide.src && all.findIndex(candidate => candidate.src === slide.src) === index
+      );
+
+      if (slides.length > 1) {
+        let activeImage = heroImage;
+        let standbyImage = heroImage.cloneNode();
+        let slideIndex = 0;
+        let slideTimer;
+        let isTransitioning = false;
+
+        standbyImage.classList.remove('is-active');
+        standbyImage.alt = '';
+        standbyImage.setAttribute('aria-hidden', 'true');
+        heroMedia.insertBefore(standbyImage, heroCaption);
+
+        const scheduleNextSlide = () => {
+          window.clearTimeout(slideTimer);
+          if (!document.hidden) slideTimer = window.setTimeout(showNextSlide, 3000);
+        };
+
+        const showNextSlide = async () => {
+          if (isTransitioning || document.hidden) return;
+          isTransitioning = true;
+          const nextIndex = (slideIndex + 1) % slides.length;
+          const nextSlide = slides[nextIndex];
+
+          standbyImage.src = nextSlide.src;
+          standbyImage.alt = nextSlide.alt;
+          standbyImage.setAttribute('aria-hidden', 'false');
+          await Promise.race([
+            standbyImage.decode().catch(() => {}),
+            new Promise(resolve => window.setTimeout(resolve, 1200))
+          ]);
+
+          heroCaption.textContent = nextSlide.caption;
+          standbyImage.classList.add('is-active');
+          activeImage.classList.remove('is-active');
+
+          window.setTimeout(() => {
+            activeImage.alt = '';
+            activeImage.setAttribute('aria-hidden', 'true');
+            [activeImage, standbyImage] = [standbyImage, activeImage];
+            slideIndex = nextIndex;
+            isTransitioning = false;
+            scheduleNextSlide();
+          }, 2250);
+        };
+
+        document.addEventListener('visibilitychange', scheduleNextSlide);
+        scheduleNextSlide();
+      }
+    }
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    } else {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .08 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+  </script>
+</body>
+</html>
