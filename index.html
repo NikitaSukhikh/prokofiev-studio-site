@@ -18,6 +18,7 @@
       --max: 1600px;
       --sans: Arial, Helvetica, sans-serif;
       --serif: Georgia, "Times New Roman", serif;
+      --heading: "Gill Sans Light", "Gill Sans", "Gill Sans MT", "GillSans-Light", Arial, Helvetica, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -36,7 +37,13 @@
     a { color: inherit; text-underline-offset: .22em; }
     button { color: inherit; font: inherit; }
     p { margin: 0 0 1em; }
-    h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: .95; letter-spacing: -.045em; }
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-family: var(--heading);
+      font-weight: 300;
+      line-height: .95;
+      letter-spacing: -.045em;
+    }
     :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
     ::selection { color: var(--paper); background: var(--accent); }
 
