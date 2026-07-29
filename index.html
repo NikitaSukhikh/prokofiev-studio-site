@@ -141,6 +141,7 @@
     .card button:hover { color: var(--accent); }
 
     .events { padding-block: clamp(4rem, 9vw, 9rem); background: var(--paper); color: var(--ink); }
+    .events .card { grid-column: span 6; }
     .event-filters {
       margin: -.55rem 0 2rem;
       display: flex;
@@ -543,7 +544,7 @@
           <button type="button" data-event-filter="past" aria-pressed="false">PAST</button>
         </div>
         <div class="card-grid" data-event-list>
-          <article class="card reveal">
+          <article class="card reveal" data-start-date="2026-07-08" data-end-date="2026-07-08">
             <div class="card-image">
               <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman at the Oleg Prokofiev poetry evening">
             </div>
@@ -553,7 +554,7 @@
             <button type="button" data-dialog="poetry-dialog">More</button>
           </article>
 
-          <article class="card reveal">
+          <article class="card reveal" data-start-date="2026-05-30" data-end-date="2026-05-30">
             <div class="card-image event-placeholder" aria-hidden="true"><span>SIFFA<br>Masterclass</span></div>
             <div class="card-meta"><span>Film &amp; music</span><time datetime="2026-05-30">30 May 2026</time></div>
             <h3>The Sun of Prokofiev</h3>
@@ -561,7 +562,7 @@
             <button type="button" data-dialog="siffa-dialog">More</button>
           </article>
 
-          <article class="card reveal">
+          <article class="card reveal" data-start-date="2026-04-23" data-end-date="2026-04-23">
             <div class="card-image">
               <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the documentary screening I Choose to Live">
             </div>
@@ -569,6 +570,16 @@
             <h3>I Choose to Live</h3>
             <p>Maria Bregman’s documentary portrait of poet Lydia Grigorieva, moving between memory, loss and a flourishing inner world.</p>
             <button type="button" data-dialog="screening-dialog">More</button>
+          </article>
+
+          <article class="card reveal" data-start-date="2026-07-21" data-end-date="2026-08-22">
+            <div class="card-image">
+              <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/04_Summer_Art_School/photo_2026-07-29_22-16-07.jpg" alt="Painting and drawing materials prepared for Kinetica Summer Art School">
+            </div>
+            <div class="card-meta"><span>Art school · Ages 6—12</span><time datetime="2026-07-21">21 July—22 August 2026</time></div>
+            <h3>Kinetica Summer Art School</h3>
+            <p>Open-ended classes in sketching, painting, drawing, clay and collage, guided by Gleb Skubachevsky and Ksenia Ilina.</p>
+            <button type="button" data-dialog="summer-school-dialog">More</button>
           </article>
         </div>
       </div>
@@ -882,13 +893,28 @@ the mystery of unadorned stillness</p>
     <div class="dialog-head"><span>Event · Archive</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
     <div class="dialog-body">
       <p class="eyebrow">Poetry evening</p>
-      <h2 id="poetry-title">Oleg Prokofiev</h2>
+      <h2 id="poetry-title">Poetry Evening: Oleg Prokofiev</h2>
       <p class="dialog-meta">8 July 2026 · Read by Gabriel Prokofiev &amp; Maria Bregman</p>
       <div class="dialog-copy">
-        <p>An evening dedicated to the poetry of Oleg Prokofiev, offering a rare opportunity to experience his literary voice alongside his artistic archive.</p>
-        <p>Prokofiev left behind several hundred poems, all written in Russian and preserved within his family archive. His poetic language is imagistic and fragmentary, often resisting translation. Dispensing with punctuation, he relies on line breaks to shape meaning.</p>
+        <p class="credits">Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>An evening of poetry by Oleg Prokofiev. Read by Gabriel Prokofiev &amp; Maria Bregman.</p>
+        <p>Join us for an evening dedicated to the poetry of Oleg Prokofiev, offering a rare opportunity to experience his literary voice alongside his artistic legacy. The readings will be presented by Gabriel Prokofiev, composer and son of Oleg Prokofiev, and Maria Bregman, poet, literary critic and writer, bringing together personal insight and performative interpretation.</p>
+        <p>The event creates a dialogue between Prokofiev’s poetic works, inviting audiences to reflect on memory, materiality, and the passage of time.</p>
+        <p>Oleg Prokofiev was a significant yet largely undiscovered poet whose work is only now beginning to receive the attention it deserves. At the time of his death in 1998, he left behind several hundred poems, all written in Russian and preserved within his family archive.</p>
+        <p>Prokofiev’s poetic language is imagistic and fragmentary, often resisting translation. Dispensing with punctuation, he relies on line breaks to shape meaning, creating a syntax that is at once fluid and ambiguous. His work frequently gestures toward pre-verbal and supra-verbal states of perception, with imagery that is both open-ended and hermetic.</p>
       </div>
-      <div class="dialog-gallery"><img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman reading at the Oleg Prokofiev poetry evening"></div>
+      <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Oleg Prokofiev poetry books and event refreshments">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9248.JPG" alt="Guests gathering for the Oleg Prokofiev poetry evening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9277.JPG" alt="Audience at the Oleg Prokofiev poetry evening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9319.JPG" alt="Poetry reading at Prokofiev Studio">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9324.JPG" alt="Gabriel Prokofiev and Maria Bregman reading Oleg Prokofiev’s poetry">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9339.JPG" alt="Reading during the Oleg Prokofiev poetry evening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9340.JPG" alt="Speakers and audience during the poetry event">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9343.JPG" alt="Oleg Prokofiev poetry evening at Prokofiev Studio">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9361.JPG" alt="Guests in conversation after the poetry reading">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9375.JPG" alt="Guests at the close of the Oleg Prokofiev poetry evening">
+      </div>
     </div>
   </dialog>
 
@@ -899,9 +925,15 @@ the mystery of unadorned stillness</p>
       <h2 id="siffa-title">The Sun of Prokofiev</h2>
       <p class="dialog-meta">30 May 2026 · Richard Belfield with Gabriel Prokofiev</p>
       <div class="dialog-copy">
-        <p>An exclusive masterclass exploring the world of Sergei Prokofiev and the art of bringing a legendary composer to the screen.</p>
-        <p>Led by filmmaker Richard Belfield and featuring special guest Gabriel Prokofiev, the session offered filmmakers, composers and arts audiences insight into the relationship between music and cinematic storytelling.</p>
-        <p><a href="https://www.siffa.media/" target="_blank" rel="noopener">Visit SIFFA ↗</a></p>
+        <p class="credits">SIFFA Masterclass: The Sun of Prokofiev — Filming a Great Composer<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>Step into a rare and inspiring cinematic experience with the So Independent International Film Festival (SIFFA).</p>
+        <p>Join us in person for an exclusive and inspiring masterclass exploring the world of Sergei Prokofiev. Discover the art of bringing a legendary composer to the screen and gain rare insights into the relationship between music and cinematic storytelling.</p>
+        <p>Led by internationally acclaimed filmmaker Richard Belfield, and featuring special guest Gabriel Prokofiev, this session offers a unique opportunity to learn from leading voices in film and music.</p>
+        <p>Whether you’re a filmmaker, a composer, or simply passionate about the arts, this masterclass will open new creative perspectives.</p>
+        <p><strong>Special opportunity:</strong> Selected works developed after this masterclass will be considered for a dedicated competition programme at SIFFA 2026, taking place this November in London.</p>
+        <p><strong>Limited seats available.</strong> Early booking recommended.</p>
+        <p><strong>Submissions &amp; updates:</strong> To submit your work for SIFFA 2026, visit the Submission section at <a href="https://www.siffa.media/" target="_blank" rel="noopener">siffa.media ↗</a>.</p>
+        <p>Stay connected:<br>Instagram: @siffaukindependent<br>LinkedIn: SIFFA Independent Film Festival</p>
       </div>
     </div>
   </dialog>
@@ -913,10 +945,45 @@ the mystery of unadorned stillness</p>
       <h2 id="screening-title">I Choose to Live</h2>
       <p class="dialog-meta">23 April 2026 · Duration 49 min</p>
       <div class="dialog-copy">
-        <p><em>Lydia Grigorieva. I Choose to Live</em> opens in the poet’s London home and garden before travelling into memories of her childhood in the Far North. Grigorieva reads her poetry as archive footage evokes the 1960s “Thaw” and the writers around her.</p>
-        <p>Dedicated to the poet’s 80th anniversary, the film moves through personal loss while revealing an inner world where the earthly and eternal intertwine.</p>
+        <p class="credits">Screening of a documentary by Maria Bregman<br><em>Lydia Grigorieva. I Choose to Live</em><br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>The film opens with scenes of Lydia Grigorieva’s London home and garden, gradually transporting the viewer to memories of her childhood spent in the Far North. Lydia reads her own poetry, while archival footage of the 1960s “Thaw” era evokes the atmosphere of her youth, her first steps in poetry, and the circle of young writers she belonged to — among them Joseph Brodsky, Yevgeny Rein, and Dmitry Bobyshev.</p>
+        <p>The film is dedicated to the 80th anniversary of the renowned poet. Together with her, we embark on a journey through personal losses — the deaths of loved ones, the weight of private tragedies. Yet even in these moments, Lydia remains resilient: her poetry and inner world continue to flourish. We follow her through the garden, witnessing its lush bloom, and begin to perceive the richness of her inner life, where the earthly and the eternal intertwine.</p>
+        <p>Lydia Nikolaevna Grigorieva is a poet, prose writer, and photographic artist. She graduated from the Faculty of Philology at Kazan University. In the 1980s she was the author and host of the radio programmes <em>Poetic Encounters</em> and <em>The Poet’s Studio</em> on All-Union Radio. Since 1992 she has lived both in London and Moscow. She is the author of television films about the time Marina Tsvetaeva, Nikolai Gumilev, and Alexander Scriabin spent in London, as well as poetry collections, verse novels such as <em>Circle of Acquaintances</em> and <em>The Russian Wife of an English Gentleman</em>, and prose and essays including <em>England — The Country of Councils</em>, <em>Earthly and Heavenly Gardens</em>, and the three-volume <em>Novel in Strokes: The Termite Mound 1, 2, 3</em>.</p>
+        <p>She is the creator of the synthetic genres “Photopoetry” and “Cinepoem.” A member of the Union of Writers of the USSR, the European Society of Culture, and PEN International, she is the recipient of the WOW Award 2025 “For the fire of the Russian word preserved in every line and shared with the world.”</p>
+        <p class="credits">Duration: 49:00</p>
       </div>
-      <div class="dialog-gallery"><img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the I Choose to Live documentary screening"></div>
+      <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Lydia Grigorieva and Maria Bregman at the I Choose to Live screening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8217.JPG" alt="Audience at the I Choose to Live documentary screening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8224.JPG" alt="Documentary screening at Prokofiev Studio">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8277.JPG" alt="Guests during the I Choose to Live screening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8296.JPG" alt="Discussion following the documentary screening">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8312.JPG" alt="Guests at the I Choose to Live event">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8326.JPG" alt="Maria Bregman and guests after the I Choose to Live screening">
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="summer-school-dialog" aria-labelledby="summer-school-title">
+    <div class="dialog-head"><span>Event · Current</span><button class="dialog-close" type="button" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p class="eyebrow">Art school for young artists · Ages 6—12</p>
+      <h2 id="summer-school-title">Kinetica Summer Art School</h2>
+      <p class="dialog-meta">21 July—22 August 2026 · Prokofiev Studio</p>
+      <div class="dialog-copy">
+        <p class="credits">Led by Gleb Skubachevsky and Ksenia Ilina<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>Kinetica — art school for young artists aged 6—12 — has settled at Prokofiev Studio.</p>
+        <p>We dive into sketching, painting, drawing, clay, collage and more — all guided by our teachers and artists, Gleb Skubachevsky and Ksenia Ilina.</p>
+        <p>Each class has a special theme, but no rules!</p>
+        <p><strong>Class length:</strong> 2 hours<br><strong>First class:</strong> Free<br><strong>£30</strong> — 1 class<br><strong>£150</strong> — 8 classes</p>
+        <p><strong>Class times:</strong><br>9.00am—11.00am<br>or 11.30am—1.30pm</p>
+        <p><strong>Summer dates:</strong><br>21.07, 22.07, 25.07, 29.07, 30.07, 31.07, 02.08, 06.08, 07.08, 09.08, 11.08, 13.08, 16.08, 18.08, 21.08, 22.08</p>
+        <p>DM us on Instagram at <a href="https://www.instagram.com/kinetica.artschool/" target="_blank" rel="noopener">@kinetica.artschool ↗</a> or email <a href="mailto:kinetica.artschool@gmail.com">kinetica.artschool@gmail.com</a> to book a spot.</p>
+        <p class="credits">13 Ramsgate Street E8 2FD<br>Dalston, Hackney</p>
+      </div>
+      <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_2_EVENTS/04_Summer_Art_School/photo_2026-07-29_22-16-07.jpg" alt="Art materials and works in progress at Kinetica Summer Art School">
+      </div>
     </div>
   </dialog>
 
@@ -964,15 +1031,17 @@ the mystery of unadorned stillness</p>
     };
 
     const getEventMode = card => {
-      const dateValue = card.querySelector('time[datetime]')?.dateTime;
-      if (!dateValue) return null;
+      const startValue = card.dataset.startDate || card.querySelector('time[datetime]')?.dateTime;
+      const endValue = card.dataset.endDate || startValue;
+      if (!startValue || !endValue) return null;
 
-      const eventDate = dateFromISO(dateValue);
+      const startDate = dateFromISO(startValue);
+      const endDate = dateFromISO(endValue);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      if (eventDate.getTime() === today.getTime()) return 'current';
-      return eventDate > today ? 'upcoming' : 'past';
+      if (today >= startDate && today <= endDate) return 'current';
+      return startDate > today ? 'upcoming' : 'past';
     };
 
     const renderEventFilter = () => {
@@ -1146,11 +1215,11 @@ the mystery of unadorned stillness</p>
       const copy = dialog.querySelector('.dialog-copy');
       const gallery = dialog.querySelector('.dialog-gallery');
       const body = dialog.querySelector('.dialog-body');
-      if (!copy || !gallery || !body) return;
+      if (!copy || !body) return;
 
-      const images = [...gallery.querySelectorAll('img')];
+      const images = gallery ? [...gallery.querySelectorAll('img')] : [];
       const textBlocks = [...copy.children];
-      if (!images.length || !textBlocks.length) return;
+      if (!textBlocks.length) return;
 
       copy.classList.add('dialog-article');
 
@@ -1165,7 +1234,7 @@ the mystery of unadorned stillness</p>
       opening.append(...headingElements, openingCopy);
       body.insertBefore(opening, copy);
 
-      copy.prepend(createArticleSpread(images.slice(0, 1), 0));
+      if (images.length) copy.prepend(createArticleSpread(images.slice(0, 1), 0));
 
       let closingImageStart = 1;
       const remainingTextBlocks = [...copy.children].filter(block => !block.classList.contains('article-image-spread'));
@@ -1179,7 +1248,7 @@ the mystery of unadorned stillness</p>
         copy.append(createArticleSpread(images.slice(closingImageStart), 2, true));
       }
 
-      gallery.remove();
+      gallery?.remove();
     });
 
     if (reduceMotion || !('IntersectionObserver' in window)) {
