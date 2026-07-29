@@ -299,6 +299,41 @@
     .article-image-spread[data-count="3"] .article-figure:first-child { grid-column: 1 / -1; }
     .article-image-spread--closing { margin-bottom: 0; padding-top: clamp(1.5rem, 3vw, 3rem); border-top: 1px solid var(--ink); }
     .article-image-spread--closing .article-figure { margin-bottom: clamp(1rem, 2.5vw, 2.5rem); }
+    #yield-dialog .article-opening-copy .credits { color: var(--muted); font-size: .66rem; }
+    #yield-dialog .dialog-article > .artist-list {
+      width: 100%;
+      margin: clamp(3rem, 6vw, 5rem) 0 2rem;
+      padding: 1rem 0;
+      border-block: 1px solid var(--ink);
+      columns: auto;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .55rem 1rem;
+      font-family: var(--sans);
+      font-size: .68rem;
+      line-height: 1.35;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    #yield-dialog .dialog-article > .artist-list::before {
+      content: "Participating artists";
+      grid-column: 1 / -1;
+      margin-bottom: .35rem;
+      color: var(--muted);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+    #yield-dialog .dialog-article > .epigraph {
+      width: min(100%, 860px);
+      margin-block: clamp(2.5rem, 5vw, 4.5rem);
+      padding-left: clamp(1rem, 2vw, 2rem);
+      border-left: 2px solid var(--ink);
+      font-size: clamp(1.7rem, 3.4vw, 3.25rem);
+      font-style: italic;
+      line-height: 1.08;
+      letter-spacing: -.025em;
+    }
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.in { opacity: 1; transform: none; }
@@ -348,6 +383,7 @@
       .article-image-spread[data-count] .article-figure,
       .article-image-spread[data-count="3"] .article-figure:first-child { grid-column: auto; width: 100%; }
       .article-figure img { max-height: none; }
+      #yield-dialog .dialog-article > .artist-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -707,14 +743,14 @@
     <div class="dialog-body">
       <p class="eyebrow">Group exhibition during Hackney Art Week</p>
       <h2 id="yield-title">Yield</h2>
-      <p class="dialog-meta">12—20 June 2026 · Curated by Caroline McCambridge &amp; Aileen Kelly</p>
+      <p class="dialog-meta">12—20 June 2026 · Curated by Caroline McCambridge and Aileen Kelly</p>
       <div class="dialog-copy">
-        <p class="credits">Group Exhibition during Hackney Art Week<br>Curated by Caroline McCambridge and Aileen Kelly<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p class="credits">Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p><em>Yield</em> explores what it means to bend, adapt, accommodate or give way in response to the pressures around us. Through a range of materials and approaches, the exhibition reflects on how tension, resilience, fragility, and change shape our everyday lives.</p>
         <ul class="artist-list" aria-label="Participating artists">
           <li>Aileen Kelly</li><li>Alex Heim</li><li>Ana Genovés</li><li>Aya Fukami</li><li>Belinda Worsley</li><li>Caroline McCambridge</li><li>Jasone Miranda-Bilbao</li><li>Martina O’Shea</li><li>Ornela Novello</li><li>Tessa Garland</li>
         </ul>
-        <p>“Life doesn’t last; art doesn’t last.” Eva Hesse</p>
-        <p><em>Yield</em> explores what it means to bend, adapt, accommodate or give way in response to the pressures around us. Through a range of materials and approaches, the exhibition reflects on how tension, resilience, fragility, and change shape our everyday lives.</p>
+        <p class="epigraph">“Life doesn’t last; art doesn’t last.” Eva Hesse</p>
         <p>The works consider how we move through spaces and systems and how bodies and materials respond to forces such as weight, stress, contact and support. Some works appear stretched, softened, balanced or under pressure; others suggest moments of adjustment, resistance or release.</p>
         <p>Rather than seeing yielding as weakness or surrender, the exhibition approaches it as a form of responsiveness, a way of remaining open and adaptable within changing conditions. Echoing Donna Haraway’s invitation to “stay with the trouble”, the exhibition pays attention to the uncertain, shifting spaces where transformation can occur.</p>
       </div>
