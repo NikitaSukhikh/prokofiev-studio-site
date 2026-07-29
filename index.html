@@ -193,14 +193,6 @@
     .portrait img { aspect-ratio: 4 / 3; object-fit: cover; filter: grayscale(1); }
     .portrait figcaption { padding-top: .65rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
 
-    .archive { display: grid; grid-template-columns: 1.1fr .9fr; background: #d8d3c8; color: var(--ink); }
-    .archive-media { min-height: 760px; overflow: hidden; }
-    .archive-media img { height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); }
-    .archive-copy { padding: clamp(2rem, 6vw, 6rem); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
-    .archive-copy h2 { max-width: 6ch; font-size: clamp(4rem, 8vw, 9rem); }
-    .archive-copy .lead { font-family: var(--serif); font-size: clamp(1.35rem, 2.2vw, 2.25rem); line-height: 1.2; }
-    .archive-copy a { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-
     .press { padding-block: clamp(4rem, 9vw, 9rem); }
     .press-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--pad); }
     .press-card {
@@ -261,7 +253,7 @@
     .footer-nav a:hover { color: var(--accent); }
     .footer-bottom { padding: 1rem 0 1.5rem; border-top: 1px solid rgba(241,239,232,.4); display: flex; justify-content: space-between; gap: 1rem; color: #aaa9a3; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
 
-    dialog { width: min(920px, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); margin: auto; padding: 0; border: 0; background: var(--paper); color: var(--ink); box-shadow: 0 2rem 7rem rgba(0,0,0,.4); }
+    dialog { width: min(1180px, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); margin: auto; padding: 0; border: 0; background: var(--paper); color: var(--ink); box-shadow: 0 2rem 7rem rgba(0,0,0,.4); }
     dialog::backdrop { background: rgba(10,10,10,.76); backdrop-filter: blur(5px); }
     .dialog-head { position: sticky; top: 0; z-index: 2; padding: .85rem 1rem; border-bottom: 1px solid var(--ink); background: var(--paper); display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
     .dialog-head span { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
@@ -272,8 +264,13 @@
     .dialog-meta { margin-bottom: 2rem; color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
     .dialog-copy { max-width: 680px; margin-inline: auto; font-family: var(--serif); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.55; }
     .dialog-copy .credits { font-family: var(--sans); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    .dialog-copy .artist-list { columns: 2 14rem; column-gap: 2.5rem; margin: 1.5rem 0; padding: 0; list-style: none; }
+    .dialog-copy .artist-list li { break-inside: avoid; margin-bottom: .2rem; }
+    .dialog-copy blockquote { margin: 2rem 0 0; padding-left: 1.25rem; border-left: 1px solid var(--ink); }
+    .dialog-copy blockquote p { white-space: pre-line; }
+    .dialog-copy blockquote cite { font-family: var(--sans); font-size: .72rem; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
     .dialog-gallery { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-    .dialog-gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
+    .dialog-gallery img { aspect-ratio: 4 / 3; object-fit: cover; background: #ddd; }
     .dialog-gallery img:first-child:last-child { grid-column: 1 / -1; }
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
@@ -288,8 +285,8 @@
       .hero { min-height: auto; grid-template-columns: 1fr; }
       .hero-copy { min-height: 600px; }
       .hero-media { min-height: 70vw; }
-      .feature, .archive, .visit-grid { grid-template-columns: 1fr; }
-      .feature-media, .archive-media { min-height: 65vw; }
+      .feature, .visit-grid { grid-template-columns: 1fr; }
+      .feature-media { min-height: 65vw; }
       .feature-copy, .contact-panel { border-left: 0; border-top: 1px solid var(--ink); }
       .card { grid-column: span 6; }
       .card:nth-child(5) { grid-column: span 12; }
@@ -307,7 +304,7 @@
       .hero-intro p { font-size: 1.18rem; }
       .hero-media { min-height: 100vw; }
       .section-heading { align-items: flex-end; }
-      .feature-media, .archive-media { min-height: 105vw; }
+      .feature-media { min-height: 105vw; }
       .feature h3 { font-size: 3.6rem; }
       .card-grid { display: block; }
       .card { margin-bottom: 3rem; }
@@ -343,7 +340,7 @@
         <a href="#exhibitions">Exhibitions</a>
         <a href="#events">Events</a>
         <a href="/artworks">Artworks</a>
-        <a href="#archive">Archive</a>
+        <a href="/archive">Archive</a>
         <a href="/press">Press</a>
         <a href="#visit">Visit</a>
       </nav>
@@ -531,24 +528,6 @@
       </div>
     </section>
 
-    <section class="archive" id="archive" aria-labelledby="archive-title">
-      <div class="archive-media">
-        <img loading="lazy" src="Website - Prokofiev Studio/02_LEGACY/22.jpg" alt="Archival view connected to the life and work of Oleg Prokofiev">
-      </div>
-      <div class="archive-copy reveal">
-        <div>
-          <p class="eyebrow">04 / Archive</p>
-          <h2 id="archive-title">Past, in motion.</h2>
-        </div>
-        <div>
-          <p class="lead">The studio holds a significant collection of Oleg Prokofiev’s paintings, sculptures, drawings and previously unseen archival material.</p>
-          <p>For fifteen years, this body of work remained stored in a barn in Norfolk, hidden from public view. It has now been relocated to London. The archive is not only about preservation — it is about continuity, using history as a catalyst for new ideas.</p>
-          <p>The archive traces this continuing creative lineage through Gabriel Prokofiev, composer, producer and founder of the independent record label Nonclassical.</p>
-          <a href="https://www.olegprokofiev.com/" target="_blank" rel="noopener">Explore Oleg Prokofiev ↗</a>
-        </div>
-      </div>
-    </section>
-
     <section class="press shell" id="press" aria-labelledby="press-title">
       <div class="section-heading rule reveal">
         <h2 id="press-title">Press</h2>
@@ -656,6 +635,7 @@
         <a href="#exhibitions">Exhibitions</a>
         <a href="#events">Events</a>
         <a href="#about">About</a>
+        <a href="/archive">Archive</a>
         <a href="#visit">Visit</a>
       </nav>
     </div>
@@ -669,14 +649,24 @@
       <h2 id="beyond-title">Beyond the Line</h2>
       <p class="dialog-meta">July — September 2026 · Curated by Anzhela Popova</p>
       <div class="dialog-copy">
-        <p>Beyond the Line explores a decisive moment in Oleg Prokofiev’s artistic evolution, when drawing, painting and sculpture began to dissolve into one another through an increasingly radical exploration of line, colour and space.</p>
-        <p>The exhibition focuses on work created after Prokofiev’s first visit to the United States in 1977–78. New York’s verticality, energy and architectural rhythm inspired the remarkable series of drawings titled <em>Stripes</em>, while encounters with abstract painting on an unprecedented scale encouraged a new confidence in reduction, colour and formal clarity.</p>
-        <p>After returning, Prokofiev developed a language in which colour became an active structural force. This search extended naturally into sculpture. Wood became his principal medium for investigating form in three dimensions: an orchestration of movement, balance and void where empty space matters as much as material.</p>
-        <p>The exhibition reveals the pivotal transition where line becomes structure, colour becomes space and sculpture becomes a living choreography of balance and motion.</p>
+        <p class="credits">Solo Exhibition by Oleg Prokofiev<br>Curated by Anzhela Popova<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p><em>Beyond the Line</em> explores a decisive moment in Oleg Prokofiev's artistic evolution, when drawing, painting and sculpture began to dissolve into one another through an increasingly radical exploration of line, colour and space.</p>
+        <p>The exhibition focuses on works created after Prokofiev's first visit to the United States in 1977–78. His encounter with New York profoundly transformed his artistic language. The city's overwhelming verticality, restless energy and architectural rhythm inspired a remarkable series of drawings titled <em>Stripes</em>, while visits to the Museum of Modern Art, the Guggenheim Museum and the Metropolitan Museum exposed him to abstract painting on an unprecedented scale. The works of Mark Rothko, Clyfford Still, Sol LeWitt, Robert Motherwell, Barnett Newman and Helen Frankenthaler encouraged a new confidence in reduction, colour and formal clarity.</p>
+        <p>After returning, Oleg Prokofiev developed a visual language in which colour became an active structural force rather than a descriptive element. He created compositions built from contrasting bands, rhythmic intervals and shifting tonal relationships. These works move beyond conventional distinctions between painting and drawing, treating line as both gesture and architecture, capable of constructing space rather than merely describing it.</p>
+        <p>This search naturally extended into sculpture. During the late 1970s and early 1980s, wood became Prokofiev's principal medium for investigating form in three dimensions. Rather than treating sculpture as static mass, Prokofiev conceived it as an orchestration of movement, balance and void. Influenced by Constructivist principles and resonating with the spatial experiments of Alexander Calder, his reliefs and freestanding sculptures establish a dialogue between weight and lightness, enclosure and openness, presence and absence. Empty space becomes as significant as the material itself, while colour activates the sculptural surface as an integral component of form.</p>
+        <p>Underlying these works is a deeply poetic understanding of abstraction. Echoing Paul Klee's belief that artistic creation begins from an invisible point from which all forms emerge, Prokofiev sought to distance himself from literal representation in favour of a more universal visual language. His sculptures do not imitate nature; they generate their own systems of rhythm, growth and transformation. Their forms remain open, unfinished and continually reconfigured through the viewer's movement around them.</p>
+        <p><em>Beyond the Line</em> reveals this pivotal transition in Prokofiev's practice, where line becomes structure, colour becomes space and sculpture becomes a living choreography of balance and motion. The exhibition presents an artist who continuously expanded the possibilities of abstraction, transforming geometric order into an expressive, lyrical and profoundly human language.</p>
       </div>
       <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/1.jpg" alt="Striped paintings and sculptures in Beyond the Line">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/13.jpg" alt="Installation view of Beyond the Line">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/26.jpg" alt="Oleg Prokofiev artworks displayed in Beyond the Line">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/28.jpg" alt="Oleg Prokofiev works shown in Beyond the Line">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/6.jpg" alt="Sculptural installation in Beyond the Line">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/IMG_9560.JPG" alt="Visitor viewing Beyond the Line">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/IMG_9565.JPG" alt="Visitors at the Beyond the Line exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/IMG_9623.JPG" alt="Gallery view during Beyond the Line">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/IMG_9631.JPG" alt="Visitors and artworks in Beyond the Line">
       </div>
     </div>
   </dialog>
@@ -688,13 +678,23 @@
       <h2 id="yield-title">Yield</h2>
       <p class="dialog-meta">12—20 June 2026 · Curated by Caroline McCambridge &amp; Aileen Kelly</p>
       <div class="dialog-copy">
-        <p class="credits">Aileen Kelly · Alex Heim · Ana Genovés · Aya Fukami · Belinda Worsley · Caroline McCambridge · Jasone Miranda-Bilbao · Martina O’Shea · Ornela Novello · Tessa Garland</p>
-        <p>Yield explores what it means to bend, adapt, accommodate or give way in response to the pressures around us. Through a range of materials and approaches, it reflects on how tension, resilience, fragility and change shape everyday life.</p>
-        <p>Rather than seeing yielding as weakness or surrender, the exhibition approaches it as a form of responsiveness — a way of remaining open and adaptable within changing conditions.</p>
+        <p class="credits">Group Exhibition during Hackney Art Week<br>Curated by Caroline McCambridge and Aileen Kelly<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <ul class="artist-list" aria-label="Participating artists">
+          <li>Aileen Kelly</li><li>Alex Heim</li><li>Ana Genovés</li><li>Aya Fukami</li><li>Belinda Worsley</li><li>Caroline McCambridge</li><li>Jasone Miranda-Bilbao</li><li>Martina O’Shea</li><li>Ornela Novello</li><li>Tessa Garland</li>
+        </ul>
+        <p>“Life doesn’t last; art doesn’t last.” Eva Hesse</p>
+        <p><em>Yield</em> explores what it means to bend, adapt, accommodate or give way in response to the pressures around us. Through a range of materials and approaches, the exhibition reflects on how tension, resilience, fragility, and change shape our everyday lives.</p>
+        <p>The works consider how we move through spaces and systems and how bodies and materials respond to forces such as weight, stress, contact and support. Some works appear stretched, softened, balanced or under pressure; others suggest moments of adjustment, resistance or release.</p>
+        <p>Rather than seeing yielding as weakness or surrender, the exhibition approaches it as a form of responsiveness, a way of remaining open and adaptable within changing conditions. Echoing Donna Haraway’s invitation to “stay with the trouble”, the exhibition pays attention to the uncertain, shifting spaces where transformation can occur.</p>
       </div>
       <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7665_JFH.jpg" alt="Installation view of Yield">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7670_JFH.jpg" alt="Artwork displayed in Yield">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7671_JFH.jpg" alt="Sculptural work in the Yield exhibition">
         <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7679_JFH.jpg" alt="Artworks installed in Yield">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7693_JFH.jpg" alt="Gallery view of Yield">
         <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7696_JFH.jpg" alt="Visitor viewing the Yield exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7707_JFH.jpg" alt="Visitors and artworks in Yield">
       </div>
     </div>
   </dialog>
@@ -706,11 +706,23 @@
       <h2 id="pink-title">Pink Chaos</h2>
       <p class="dialog-meta">1—14 June 2026 · Curated by Mei Hui Liu</p>
       <div class="dialog-copy">
-        <p>More than thirty artists and one hundred artworks filled Prokofiev Studio in a maximal group exhibition for Hackney Art Week.</p>
-        <p class="credits">Andrew Logan · Astrid Grosser · Babak Ganjei · Charlotte Colbert · Daniel Lismore · Dora Holzhandler · Louise Boughton · Mei Hui Liu · Misha Milovanovich · Oleg Prokofiev · Pandemonia · Philip Colbert · Patrick Wolf · Roxana Halls · Tatty Devine · and many more.</p>
+        <p class="credits">Group Exhibition during Hackney Art Week<br>Curated by Mei Hui Liu<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>More than 30 Great artists 100 Artworks.</p>
+        <ul class="artist-list" aria-label="Participating artists">
+          <li>Andrew Logan</li><li>Astrid Grosser</li><li>Atelier NAF</li><li>Blue Logan</li><li>Babak Ganjei</li><li>Christian Stock</li><li>Charlotte Colbert</li><li>Cuntina Couture</li><li>Collagism</li><li>Dohyun Baek</li><li>Daniel Lismore</li><li>Dora Holzhandler</li><li>Gus Sharpe</li><li>Etienne Clement</li><li>JR Chuo</li><li>Julian Smith. James Canty</li><li>K and M Bespoke</li><li>Kat Five</li><li>Louise Boughton</li><li>Mei Hui Liu</li><li>Misha Milovanovich</li><li>Michelle Lowe Holder</li><li>Marie Brenneis</li><li>Mari Otberg</li><li>Martine Charalambou</li><li>Maryam Eisler</li><li>Natalie Webb</li><li>Natalie Gibson</li><li>Olga Szynkarczuk</li><li>Oleg Prokofiev</li><li>Pandemonia</li><li>Philip Colbert</li><li>Patrick Wolf</li><li>Roxana Halls</li><li>Sue Dray</li><li>Ted Rogers</li><li>Tatty Devine</li><li>Victoria Caution</li><li>Victoria Kiff</li><li>Wind</li>
+        </ul>
+        <p class="credits">Pink Drink: Campari @campariofficial</p>
       </div>
       <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4737_JFH.jpg" alt="Gallery view of Pink Chaos">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4743_JFH.jpg" alt="Installation view during Pink Chaos">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4765_JFH.jpg" alt="Artworks in the Pink Chaos exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4850_JFH.jpg" alt="Visitor viewing Pink Chaos">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4871_JFH.jpg" alt="Pink Chaos installation at Prokofiev Studio">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4943_JFH.jpg" alt="Visitors among works in Pink Chaos">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4971_JFH.jpg" alt="Exhibition view of Pink Chaos">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A5022_JFH.jpg" alt="Installation view of Pink Chaos">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A5066_JFH.jpg" alt="Art and visitors at Pink Chaos">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A5188_JFH.jpg" alt="Visitor at Pink Chaos">
       </div>
     </div>
@@ -723,13 +735,31 @@
       <h2 id="bending-title">Bending Time</h2>
       <p class="dialog-meta">1—29 May 2026 · Curated by Anzhela Popova</p>
       <div class="dialog-copy">
-        <p>Bending Time is structured around the archive — understood not as a static repository, but as a living, generative system through which artistic archives are continuously reactivated and brought into the present.</p>
-        <p>At its core is a reconstruction of Oleg Prokofiev’s 1990s studio on Dace Road in Hackney Wick. His wooden sculptures are encountered as part of an ongoing process, developed through the principle he described as the “line in space”.</p>
-        <p>Works by Valentino Vannini and Kirill Basalaev expand the framework through shared concerns with materiality, temporality and transformation. The result is not a stable narrative but a shifting constellation where the past is reactivated and meaning remains in motion.</p>
+        <p class="credits">Group Exhibition<br>Oleg Prokofiev, Valentino Vannini, Kirill Basalaev<br>Curated by Anzhela Popova<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom</p>
+        <p>The inaugural exhibition <em>Bending Time</em> at Prokofiev Studio is conceived as a group exhibition structured around the notion of the archive – understood not as a static repository, but as a living, generative system through which artistic legacies are continuously reactivated, reconfigured, and brought into the present. Rather than preserving the past, the archive here operates as a dynamic field of relations, where memory, material, and form remain in a state of transformation.</p>
+        <p>At the core of the exhibition is a reconstruction of Oleg Prokofiev’s studio from the 1990s, originally located on Dace Road in Hackney Wick. This environment is an active spatial framework that reveals the conditions of the artist’s thinking. Within it, a selection of Prokofiev’s wooden sculptures is presented in close proximity to their original context, allowing the viewer to encounter them not as isolated objects, but as part of an ongoing process.</p>
+        <p>Prokofiev’s works, developed following his experience of New York in 1977–78, are grounded in the principle he described as the “line in space.” Wooden strips condense into knots or container-like forms, extending into chains, garlands, or serpentine structures. Like the “space-modulations” described by Eduardo Chillida, these works do not simply occupy space but actively produce it. The line – thick, tangible, and materially dense – moves freely, yet is bound by a single rule: it must always return to its point of origin. This cyclical movement establishes a crucial conceptual link to the exhibition as a whole, where time, memory, and form are understood as recursive rather than linear.</p>
+        <p>Despite their physical density, these sculptures generate a powerful sense of internal space. It is the tension between mass and void, containment and expansion, that defines their presence. The works continually reorganise themselves in relation to their surroundings, extending beyond objecthood toward installation, where space itself becomes sculptural. In this way, Prokofiev’s practice establishes a foundational logic for the exhibition: form as a site of negotiation between structure and instability, presence and absence.</p>
+        <p>This logic extends into the archival materials preserved within the reconstructed studio – documents, manuscripts, photographs, sketchbooks, and ephemera. These elements are not presented as historical evidence, but as active components of the exhibition. As carriers of time, they mediate between past and present, revealing the archive as a process rather than a conclusion. Fragmented and incomplete, they mirror the very structure of memory itself, reinforcing the idea that meaning is continuously produced through reactivation.</p>
+        <p>The main gallery expands this framework through the work of Valentino Vannini, and Kirill Basalaev. Their practices do not follow Prokofiev’s legacy directly, but resonate with it through shared concerns with materiality, temporality, and transformation. Together, they form a network of affinities in which the archive becomes distributed across bodies, materials, and spatial conditions.</p>
+        <p>As proposed by curator Anzhela Popova, the exhibition operates through a “return to the future” – a movement that uncovers unrealised potentials of the past while foregrounding possibilities embedded in the present. Within this context, memory is understood not as preservation, but as an active, destabilising force that reshapes perception.</p>
+        <p>For Kirill Basalaev, cement – typically associated with permanence – becomes a fragile and unstable carrier of memory. His works appear as archaeological imprints: traces of forms that never fully materialised, yet persist as residues of presence. These forms exist outside linear time, suggesting that matter itself holds the capacity to remember. Cracks, scratches, and erosion – drawn from urban surfaces – become metaphors for memory as fragmented and layered. Through this material language, Basalaev extends the exhibition’s central tension between construction and collapse, revealing memory as both a site of loss and a condition for new perception.</p>
+        <p>Valentino Vannini’s practice shifts this inquiry toward the immediacy of transformation. If Basalaev’s works hold memory as traces, Vannini’s materials perform change in real time. His multidisciplinary approach creates a sensual field in which materiality resists stability. Reinforced concrete, petroleum jelly, wax, resin, bitumen, fibres, and glass are combined in ways that foreground contradiction: rigid and soft, viscous and solid, enduring and fragile.</p>
+        <p>These materials echo architectural forms – frameworks, scaffolding, enclosures – but destabilise their logic. Structures sag, stretch, or dissolve into organic configurations, exposing the vulnerability inherent in systems of control. In this way, Vannini’s work enters into dialogue with Prokofiev’s spatial constructions by pushing their internal tensions toward collapse and transformation.</p>
+        <p>Across these practices, a shared condition emerges: connection is never fixed, but always in flux. Each encounter – between material and form, past and present, body and space – produces something new, shaped as much by absence as by presence. Like Prokofiev’s line returning to its origin, these relations are cyclical, recursive, and continually redefined.</p>
+        <p><em>Bending Time</em> thus unfolds as a field of correspondences in which archive, memory, and material are inseparable. What is presented is not a stable narrative, but a shifting constellation of forms and relations – where the past is not recovered, but reactivated, and where meaning remains open, contingent, and in motion.</p>
       </div>
       <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT1.jpg" alt="Installation view of Bending Time">
         <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT13.jpg" alt="Sculptures installed in Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT16.jpg" alt="Oleg Prokofiev sculptures in Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT22.jpg" alt="Archive display in Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT4.jpg" alt="Gallery installation for Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8459.JPG" alt="Visitors viewing Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8502.JPG" alt="Exhibition view during Bending Time">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8557.JPG" alt="Visitors among artworks in Bending Time">
         <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8590.JPG" alt="Visitors inside the Bending Time exhibition">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/IMG_8610.JPG" alt="Artworks and visitors at Bending Time">
       </div>
     </div>
   </dialog>
@@ -741,11 +771,36 @@
       <h2 id="composing-title">Composing Space</h2>
       <p class="dialog-meta">13—27 February 2026 · Curated by Anzhela Popova</p>
       <div class="dialog-copy">
-        <p>The exhibition traces how New York transformed Oleg Prokofiev’s artistic language in 1977. The city’s scale and verticality, together with encounters with Rothko, Still, Sol LeWitt, Motherwell, Newman and Frankenthaler, led to stronger colours and a new approach to painting and drawing.</p>
-        <p>This initiated a period of experimentation with wood, fragments of metal and found materials. Prokofiev called the result “line in space”: a tangible line free to move in any direction but always returning to its origin.</p>
-        <p>His drawings and sculptures follow a logic akin to musical composition, with rhythm emerging from the balance between order and controlled disruption.</p>
+        <p class="credits">Solo Exhibition by Oleg Prokofiev<br>Curated by Anzhela Popova<br>Prokofiev Studio<br>13 Ramsgate Street, London E8 2FD, United Kingdom<br><a href="https://www.olegprokofiev.com/" target="_blank" rel="noopener">www.olegprokofiev.com</a></p>
+        <p>The contemporary art world has historically revolved around three major capitals — New York, London, and Paris. Following the Second World War, however, the balance of artistic power shifted: Paris gradually lost its leading position, while New York began to rise rapidly. This transformation was driven by the influx of artists, collectors, and critics, alongside the emergence of new artistic languages, most notably Abstract Expressionism developed in New York in the late 1940s and 1950s, positioning the city as the birthplace of the first internationally influential American art movement. It was in New York that contemporary art found not only an aesthetic foundation but also a robust market framework.</p>
+        <p>In the post-war period, particularly from the 1950s through the 1960s, New York became a site for the establishment of key institutions and influential figures. Museums of global significance, including MoMA, founded earlier in 1929 but greatly expanded in influence after 1945, played a crucial role in shaping the narrative of modern and contemporary art. At the same time, the role of galleries and art dealers grew increasingly prominent. As a result, by the mid-twentieth century, New York had firmly established itself as one of the principal centres of contemporary art and the global art market.</p>
+        <p>This exhibition explores how the city shaped the artistic development of Oleg Prokofiev during the 1970s. At the end of 1971, Oleg moved from Moscow, USSR, to London, England. He was awarded a Gregory Fellowship in painting at the University of Leeds, which provided him with the opportunity to become a full-time artist for the first time in his life. Both the academic environment and the broader artistic milieu of London played a transformative role in shaping his practice.</p>
+        <p>In 1977, Oleg travelled briefly to New York, a visit that proved pivotal in the development of his work. Upon his return, he immediately embarked on a series of Manhattan drawings, titled <em>Stripes</em>. The overwhelming scale of the city — fundamentally non-European in character, defined by its aggressive verticality — fascinated him deeply. The architecture and excitement of New York City were not the only experiences to be had. There were also the MOMA, the Guggenheim, the Metropolitan – all showing contemporary work, especially abstract work, which Oleg had not had a chance to absorb in such impressive displays before: Rothko; Still; Sol de Witt; Motherwell; Barnett Newman; Helen Frankenthaler – all no doubt had their influence and resulted in the reductive, painterly abstraction that culminated in the stripe paintings. In translating these impressions into painting, Oleg began to experiment with stronger, and at times deliberately clashing, colours, leading to an entirely new approach to both painting and drawing. During this period, he produced a series of large and medium-scale works in gouache and acrylic, exploring previously unknown intensities and combinations of colour. These drawings were guided by contrasts, dominated by variations of line and tone. Colour became a key instrument in breaking traditional boundaries between painting, drawing, and sculpture.</p>
+        <p>This initiated a period of inventive experimentation and exploration. Oleg began working with three-dimensional objects, incorporating a variety of materials — wood, fragments of metal, and objects often found on the street. His practice shifted from painting and drawing towards relief and sculpture. He described this approach as the principle of “line in space”. By joining cut-out elements from a board, the line could move in any direction, yet one strict rule applied: it must always return to its point of origin. The “line” itself is thick and tangible, most often rectangular or square in section. Despite this material density, the sculptures possess a strong sense of condensed space. It is the dynamic interplay between this internal space and the surrounding environment that ultimately defines the sculptural form as a whole.</p>
+        <p>Oleg’s abstract drawings and sculptures operate according to a logic akin to musical composition, where rhythm emerges from a balance between order and controlled disruption. Like a composer structuring a work to occupy a predetermined duration, carefully calibrating sound and silence, Prokofiev organises space through deliberate modulation. A finite spatial field is articulated through varying densities of form, constructed from interrelated contrasts of stripes, angles, curves, and loops. Dynamics and pauses are integral to this construction, activating the space and guiding the viewer’s perception through moments of tension and release.</p>
+        <blockquote>
+          <p>I like the music of the shapes
+it has no punctuations marks
+harmony doesn’t falter
+pauses are not filled
+and what you hear is
+one muteness moving imperceptibly
+Into another
+the vestments of sounds are thrown off
+and can be stripped down in layers
+starting with impulsive shouts - the outer garments
+then to light whispers of the lingerie
+down to the nakedness of silence
+the mystery of unadorned stillness</p>
+          <cite>Oleg Prokofiev, last selected poems 1990-1998</cite>
+        </blockquote>
       </div>
-      <div class="dialog-gallery"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/671876443_17911016166377763_5666103345694462869_n.jpg" alt="Works by Oleg Prokofiev in Composing Space"></div>
+      <div class="dialog-gallery">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/2.png" alt="Artwork shown in Composing Space">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/670011112_17910870624377763_8143524004252690779_n.jpg" alt="Installation view from Composing Space">
+        <img loading="lazy" data-hero-exclude src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/670288438_17910224544377763_8395222461606353086_n.jpg" alt="Oleg Prokofiev works in Composing Space">
+        <img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/671876443_17911016166377763_5666103345694462869_n.jpg" alt="Works by Oleg Prokofiev in Composing Space">
+      </div>
     </div>
   </dialog>
 
