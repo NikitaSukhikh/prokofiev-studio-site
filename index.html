@@ -10,7 +10,7 @@
     :root {
       --paper: #ffffff;
       --ink: #161616;
-      --red: #e43b24;
+      --accent: #6b6b6b;
       --muted: #686761;
       --line: rgba(22, 22, 22, .28);
       --pad: clamp(1rem, 3vw, 3rem);
@@ -36,8 +36,8 @@
     button { color: inherit; font: inherit; }
     p { margin: 0 0 1em; }
     h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: .95; letter-spacing: -.045em; }
-    :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
-    ::selection { color: var(--paper); background: var(--red); }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    ::selection { color: var(--paper); background: var(--accent); }
 
     .skip-link {
       position: fixed; top: .75rem; left: .75rem; z-index: 200;
@@ -56,12 +56,12 @@
       display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
     }
     .section-heading h2 { font-size: clamp(2.7rem, 7vw, 7.5rem); }
-    .section-heading .index { color: var(--red); font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
+    .section-heading .index { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
     .text-link {
       display: inline-block; border-bottom: 1px solid currentColor;
       text-decoration: none; font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
     }
-    .text-link:hover { color: var(--red); }
+    .text-link:hover { color: var(--accent); }
 
     .site-header {
       position: sticky; top: 0; z-index: 100;
@@ -70,16 +70,16 @@
     }
     .header-inner { min-height: 78px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; }
     .brand { display: inline-flex; align-items: center; width: fit-content; text-decoration: none; }
-    .brand-logo { width: 124px; height: auto; }
+    .brand-logo { width: 124px; height: auto; filter: grayscale(1); }
     .nav { display: flex; gap: clamp(1rem, 2vw, 2rem); align-items: center; }
     .nav a { text-decoration: none; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .nav a:hover { color: var(--red); }
+    .nav a:hover { color: var(--accent); }
     .menu-toggle { display: none; border: 0; padding: .4rem 0; background: transparent; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 
     .hero { min-height: calc(100svh - 78px); display: grid; grid-template-columns: minmax(0, .83fr) minmax(0, 1.17fr); }
     .hero-copy { padding: clamp(2rem, 5vw, 5rem) var(--pad); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
     .hero-copy h1 { max-width: 8ch; font-size: clamp(4rem, 8.5vw, 10rem); }
-    .hero-copy h1 span { display: block; color: var(--red); }
+    .hero-copy h1 span { display: block; color: var(--accent); }
     .hero-intro { max-width: 37rem; }
     .hero-intro p { font-family: var(--serif); font-size: clamp(1.25rem, 2vw, 2rem); line-height: 1.25; }
     .hero-actions { display: flex; gap: 1.5rem; flex-wrap: wrap; }
@@ -87,7 +87,7 @@
     .hero-media img { height: 100%; object-fit: cover; object-position: center; filter: saturate(.86); }
     .hero-media .hero-slide {
       position: absolute; inset: 0; opacity: 0; transform: scale(1.015);
-      transition: opacity 2.2s ease, transform 7s ease;
+      transition: opacity 1.4s ease, transform 4.5s ease;
       will-change: opacity, transform;
     }
     .hero-media .hero-slide.is-active { opacity: 1; transform: scale(1); }
@@ -95,7 +95,7 @@
       position: absolute; right: 0; bottom: 0; z-index: 2; padding: .65rem .8rem;
       background: var(--paper); font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
     }
-    .ticker { overflow: hidden; border-block: 1px solid var(--ink); background: var(--red); color: white; }
+    .ticker { overflow: hidden; border-block: 1px solid var(--ink); background: var(--accent); color: white; }
     .ticker-track { width: max-content; display: flex; gap: 2rem; padding: .65rem 0; animation: ticker 28s linear infinite; }
     .ticker span { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
     .ticker span::after { content: "✳"; padding-left: 2rem; }
@@ -107,7 +107,7 @@
     .feature-media { min-height: 700px; overflow: hidden; }
     .feature-media img { height: 100%; object-fit: cover; }
     .feature-copy { padding: clamp(1.5rem, 4vw, 4rem); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: space-between; gap: 4rem; }
-    .status { display: flex; align-items: center; gap: .55rem; color: var(--red); font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .status { display: flex; align-items: center; gap: .55rem; color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
     .status::before { content: ""; width: .6rem; aspect-ratio: 1; border-radius: 50%; background: currentColor; }
     .feature h3 { max-width: 8ch; margin: .8rem 0 1.2rem; font-size: clamp(3.4rem, 7vw, 8rem); }
     .feature .dates { font-family: var(--serif); font-size: clamp(1.25rem, 2vw, 2rem); }
@@ -134,7 +134,7 @@
     .card h3 { margin: .65rem 0 .75rem; font-size: clamp(1.8rem, 3vw, 3.25rem); }
     .card p { max-width: 42rem; color: var(--muted); }
     .card button { border: 0; border-bottom: 1px solid; padding: 0 0 .15rem; background: none; cursor: pointer; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .card button:hover { color: var(--red); }
+    .card button:hover { color: var(--accent); }
 
     .events { padding-block: clamp(4rem, 9vw, 9rem); background: var(--paper); color: var(--ink); }
     .event-filters {
@@ -158,7 +158,7 @@
     .event-filters button:hover,
     .event-filters button[aria-pressed="true"] {
       border-bottom-color: currentColor;
-      color: var(--red);
+      color: var(--accent);
     }
     .event-filters .separator { color: var(--muted); }
     .event-filter-empty,
@@ -172,7 +172,7 @@
     }
     .event-placeholder {
       padding: clamp(1.25rem, 3vw, 2.5rem);
-      background: var(--red);
+      background: var(--accent);
       color: white;
       display: flex;
       align-items: flex-end;
@@ -234,7 +234,7 @@
       letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .press-card:hover { color: var(--red); }
+    .press-card:hover { color: var(--accent); }
     .press-card:hover .press-card-image img { transform: scale(1.025); }
 
     .visit { padding-block: clamp(4rem, 9vw, 9rem); }
@@ -247,14 +247,14 @@
     .contact-panel h3 { margin: .75rem 0 1.75rem; font-size: clamp(2.2rem, 4vw, 4.5rem); }
     .contact-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
     .contact-list a, .contact-list span { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--line); text-decoration: none; overflow-wrap: anywhere; }
-    .contact-list a:hover { color: var(--red); }
+    .contact-list a:hover { color: var(--accent); }
 
     footer { background: var(--ink); color: var(--paper); }
     .footer-top { padding-block: clamp(3rem, 7vw, 7rem); display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
-    .footer-logo { width: clamp(180px, 28vw, 380px); height: auto; filter: invert(1); }
+    .footer-logo { width: clamp(180px, 28vw, 380px); height: auto; filter: grayscale(1) invert(1); }
     .footer-nav { display: grid; gap: .5rem; text-align: right; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .footer-nav a { text-decoration: none; }
-    .footer-nav a:hover { color: var(--red); }
+    .footer-nav a:hover { color: var(--accent); }
     .footer-bottom { padding: 1rem 0 1.5rem; border-top: 1px solid rgba(241,239,232,.4); display: flex; justify-content: space-between; gap: 1rem; color: #aaa9a3; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
 
     dialog { width: min(920px, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); margin: auto; padding: 0; border: 0; background: var(--paper); color: var(--ink); box-shadow: 0 2rem 7rem rgba(0,0,0,.4); }
@@ -265,7 +265,7 @@
     .dialog-close:hover { background: var(--ink); color: var(--paper); }
     .dialog-body { padding: clamp(1.25rem, 4vw, 3.5rem); }
     .dialog-body h2 { margin: .6rem 0 1rem; font-size: clamp(2.6rem, 7vw, 6rem); }
-    .dialog-meta { margin-bottom: 2rem; color: var(--red); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .dialog-meta { margin-bottom: 2rem; color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
     .dialog-copy { max-width: 680px; margin-inline: auto; font-family: var(--serif); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.55; }
     .dialog-copy .credits { font-family: var(--sans); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
     .dialog-gallery { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
@@ -391,7 +391,7 @@
           <div>
             <p class="summary">A solo exhibition exploring the decisive moment when drawing, painting and sculpture began to dissolve into one another through Oleg Prokofiev’s radical use of line, colour and space.</p>
             <p class="eyebrow" style="margin: 0 0 1.4rem">Curated by Anzhela Popova</p>
-            <button class="button" type="button" data-dialog="beyond-dialog">Read exhibition</button>
+            <button class="button" type="button" data-dialog="beyond-dialog">More</button>
           </div>
         </div>
       </article>
@@ -415,7 +415,7 @@
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-12">12—20 June 2026</time></div>
           <h3>Yield</h3>
           <p>Works responding to pressure through tension, resilience, fragility and change.</p>
-          <button type="button" data-dialog="yield-dialog">View exhibition ↗</button>
+          <button type="button" data-dialog="yield-dialog">More</button>
         </article>
 
         <article class="card reveal" data-start-date="2026-06-01" data-end-date="2026-06-14">
@@ -423,7 +423,7 @@
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-01">1—14 June 2026</time></div>
           <h3>Pink Chaos</h3>
           <p>More than thirty artists and one hundred works brought together for Hackney Art Week.</p>
-          <button type="button" data-dialog="pink-dialog">View exhibition ↗</button>
+          <button type="button" data-dialog="pink-dialog">More</button>
         </article>
 
         <article class="card reveal" data-start-date="2026-05-01" data-end-date="2026-05-29">
@@ -431,7 +431,7 @@
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-05-01">1—29 May 2026</time></div>
           <h3>Bending Time</h3>
           <p>An archive understood as a living, generative system of memory, material and form.</p>
-          <button type="button" data-dialog="bending-dialog">View exhibition ↗</button>
+          <button type="button" data-dialog="bending-dialog">More</button>
         </article>
 
         <article class="card reveal" data-start-date="2026-02-13" data-end-date="2026-02-27">
@@ -439,7 +439,7 @@
           <div class="card-meta"><span>Solo exhibition</span><time datetime="2026-02-13">13—27 February 2026</time></div>
           <h3>Composing Space</h3>
           <p>Oleg Prokofiev’s rhythm of shapes: where line leaves the page and becomes sculpture.</p>
-          <button type="button" data-dialog="composing-dialog">View exhibition ↗</button>
+          <button type="button" data-dialog="composing-dialog">More</button>
         </article>
 
         <article class="card reveal" data-start-date="2026-07-01" data-end-date="2026-09-30">
@@ -447,7 +447,7 @@
           <div class="card-meta"><span>In focus</span><span>Oleg Prokofiev</span></div>
           <h3>Line becomes structure</h3>
           <p>Colour activates the surface while space becomes part of the work itself.</p>
-          <button type="button" data-dialog="beyond-dialog">Read the story ↗</button>
+          <button type="button" data-dialog="beyond-dialog">More</button>
         </article>
       </div>
     </section>
@@ -473,7 +473,7 @@
             <div class="card-meta"><span>Poetry</span><time datetime="2026-07-08">8 July 2026</time></div>
             <h3>Poetry Evening: Oleg Prokofiev</h3>
             <p>Gabriel Prokofiev and Maria Bregman bring the artist’s imagistic, fragmentary literary voice into dialogue with his visual legacy.</p>
-            <button type="button" data-dialog="poetry-dialog">View event ↗</button>
+            <button type="button" data-dialog="poetry-dialog">More</button>
           </article>
 
           <article class="card reveal">
@@ -481,7 +481,7 @@
             <div class="card-meta"><span>Film &amp; music</span><time datetime="2026-05-30">30 May 2026</time></div>
             <h3>The Sun of Prokofiev</h3>
             <p>Filmmaker Richard Belfield and Gabriel Prokofiev explore the art of bringing a legendary composer to the screen.</p>
-            <button type="button" data-dialog="siffa-dialog">View event ↗</button>
+            <button type="button" data-dialog="siffa-dialog">More</button>
           </article>
 
           <article class="card reveal">
@@ -491,7 +491,7 @@
             <div class="card-meta"><span>Screening</span><time datetime="2026-04-23">23 April 2026</time></div>
             <h3>I Choose to Live</h3>
             <p>Maria Bregman’s documentary portrait of poet Lydia Grigorieva, moving between memory, loss and a flourishing inner world.</p>
-            <button type="button" data-dialog="screening-dialog">View event ↗</button>
+            <button type="button" data-dialog="screening-dialog">More</button>
           </article>
         </div>
       </div>
@@ -945,7 +945,7 @@
 
         const scheduleNextSlide = () => {
           window.clearTimeout(slideTimer);
-          if (!document.hidden) slideTimer = window.setTimeout(showNextSlide, 3000);
+          if (!document.hidden) slideTimer = window.setTimeout(showNextSlide, 1800);
         };
 
         const showNextSlide = async () => {
@@ -959,7 +959,7 @@
           standbyImage.setAttribute('aria-hidden', 'false');
           await Promise.race([
             standbyImage.decode().catch(() => {}),
-            new Promise(resolve => window.setTimeout(resolve, 1200))
+            new Promise(resolve => window.setTimeout(resolve, 800))
           ]);
 
           heroCaption.textContent = nextSlide.caption;
@@ -973,7 +973,7 @@
             slideIndex = nextIndex;
             isTransitioning = false;
             scheduleNextSlide();
-          }, 2250);
+          }, 1450);
         };
 
         document.addEventListener('visibilitychange', scheduleNextSlide);
