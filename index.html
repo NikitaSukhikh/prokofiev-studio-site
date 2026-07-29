@@ -261,10 +261,11 @@
     .dialog-close:hover { background: var(--ink); color: var(--paper); }
     .dialog-body { padding: clamp(1.25rem, 4vw, 3.5rem); }
     .dialog-body h2 { margin: .6rem 0 1rem; font-size: clamp(2.6rem, 7vw, 6rem); }
-    .dialog-body > .eyebrow, .dialog-body > h2, .dialog-body > .dialog-meta { width: min(100%, 780px); margin-inline: auto; }
+    .dialog-body > .eyebrow, .dialog-body > h2, .dialog-body > .dialog-meta,
+    .dialog-article-opening > .eyebrow, .dialog-article-opening > h2, .dialog-article-opening > .dialog-meta { width: min(100%, 780px); margin-inline: auto; }
     .dialog-meta { margin-bottom: 2rem; color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
     .dialog-copy { max-width: 680px; margin-inline: auto; font-family: var(--serif); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.55; }
-    .dialog-copy .credits { font-family: var(--sans); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    .dialog-copy .credits, .dialog-article-opening .credits { font-family: var(--sans); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
     .dialog-copy .artist-list { columns: 2 14rem; column-gap: 2.5rem; margin: 1.5rem 0; padding: 0; list-style: none; }
     .dialog-copy .artist-list li { break-inside: avoid; margin-bottom: .2rem; }
     .dialog-copy blockquote { margin: 2rem 0 0; padding-left: 1.25rem; border-left: 1px solid var(--ink); }
@@ -273,9 +274,13 @@
     .dialog-gallery { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
     .dialog-gallery img { aspect-ratio: 4 / 3; object-fit: cover; background: #ddd; }
     .dialog-gallery img:first-child:last-child { grid-column: 1 / -1; }
+    .dialog-article-opening { break-inside: avoid; }
+    .article-opening-copy { width: min(100%, 680px); margin: 0 auto; font-family: var(--serif); font-size: clamp(1.08rem, 1.7vw, 1.3rem); line-height: 1.55; }
+    .article-opening-copy > p:last-child { font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.42; }
+    .article-opening-copy .artist-list { columns: 2 14rem; column-gap: 2.5rem; margin: 1.5rem 0; padding: 0; list-style: none; }
+    .article-opening-copy .artist-list li { break-inside: avoid; margin-bottom: .2rem; }
     .dialog-copy.dialog-article { max-width: none; display: flow-root; }
     .dialog-article > :not(.article-image-spread) { width: min(100%, 680px); margin-inline: auto; }
-    .dialog-article > .credits + p { font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.42; }
     .article-image-spread {
       width: 100%;
       margin: clamp(2.5rem, 7vw, 6rem) 0;
@@ -292,6 +297,8 @@
     .article-image-spread[data-align="right"] .article-figure { justify-self: end; }
     .article-image-spread[data-align="full"] .article-figure { width: 100%; }
     .article-image-spread[data-count="3"] .article-figure:first-child { grid-column: 1 / -1; }
+    .article-image-spread--closing { margin-bottom: 0; padding-top: clamp(1.5rem, 3vw, 3rem); border-top: 1px solid var(--ink); }
+    .article-image-spread--closing .article-figure { margin-bottom: clamp(1rem, 2.5vw, 2.5rem); }
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.in { opacity: 1; transform: none; }
@@ -1072,11 +1079,12 @@ the mystery of unadorned stillness</p>
       }
     }
 
-    const createArticleSpread = (images, spreadIndex) => {
+    const createArticleSpread = (images, spreadIndex, closing = false) => {
       const spread = document.createElement('section');
       spread.className = 'article-image-spread';
+      if (closing) spread.classList.add('article-image-spread--closing');
       spread.dataset.count = String(images.length);
-      spread.dataset.align = ['left', 'right', 'full'][spreadIndex % 3];
+      spread.dataset.align = closing ? 'full' : ['left', 'right', 'full'][spreadIndex % 3];
       spread.setAttribute('aria-label', 'Article photography');
 
       images.forEach(image => {
@@ -1094,26 +1102,38 @@ the mystery of unadorned stillness</p>
     document.querySelectorAll('dialog').forEach(dialog => {
       const copy = dialog.querySelector('.dialog-copy');
       const gallery = dialog.querySelector('.dialog-gallery');
-      if (!copy || !gallery) return;
+      const body = dialog.querySelector('.dialog-body');
+      if (!copy || !gallery || !body) return;
 
       const images = [...gallery.querySelectorAll('img')];
       const textBlocks = [...copy.children];
       if (!images.length || !textBlocks.length) return;
 
       copy.classList.add('dialog-article');
-      let spreadIndex = 0;
 
-      if (images.length === 1) {
-        const middleBlock = textBlocks[Math.max(0, Math.ceil(textBlocks.length / 2) - 1)];
-        middleBlock.after(createArticleSpread(images, spreadIndex));
-      } else {
-        textBlocks.forEach((block, blockIndex) => {
-          const imageStart = Math.floor(blockIndex * images.length / textBlocks.length);
-          const imageEnd = Math.floor((blockIndex + 1) * images.length / textBlocks.length);
-          if (imageEnd === imageStart) return;
-          block.after(createArticleSpread(images.slice(imageStart, imageEnd), spreadIndex));
-          spreadIndex += 1;
-        });
+      const firstBodyIndex = textBlocks.findIndex(block => block.matches('p:not(.credits)'));
+      const openingEnd = firstBodyIndex >= 0 ? firstBodyIndex : 0;
+      const opening = document.createElement('header');
+      opening.className = 'dialog-article-opening';
+      const headingElements = [...body.querySelectorAll(':scope > .eyebrow, :scope > h2, :scope > .dialog-meta')];
+      const openingCopy = document.createElement('div');
+      openingCopy.className = 'article-opening-copy';
+      openingCopy.append(...textBlocks.slice(0, openingEnd + 1));
+      opening.append(...headingElements, openingCopy);
+      body.insertBefore(opening, copy);
+
+      copy.prepend(createArticleSpread(images.slice(0, 1), 0));
+
+      let closingImageStart = 1;
+      const remainingTextBlocks = [...copy.children].filter(block => !block.classList.contains('article-image-spread'));
+      if (remainingTextBlocks.length >= 7 && images.length >= 6) {
+        const midArticleBlock = remainingTextBlocks[Math.floor(remainingTextBlocks.length * .6) - 1];
+        midArticleBlock.after(createArticleSpread(images.slice(1, 2), 1));
+        closingImageStart = 2;
+      }
+
+      if (images.length > closingImageStart) {
+        copy.append(createArticleSpread(images.slice(closingImageStart), 2, true));
       }
 
       gallery.remove();
