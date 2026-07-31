@@ -111,6 +111,13 @@
 
     section[id] { scroll-margin-top: 78px; }
     .current { padding-block: clamp(4rem, 9vw, 9rem); }
+    .now-on-viewport { overflow: hidden; }
+    .now-on-track {
+      display: flex;
+      transition: transform .75s cubic-bezier(.65, 0, .35, 1);
+      will-change: transform;
+    }
+    .now-on-track .feature { flex: 0 0 100%; min-width: 0; }
     .feature { display: grid; grid-template-columns: 1.25fr .75fr; border-top: 1px solid var(--ink); }
     .feature-media { min-height: 700px; overflow: hidden; }
     .feature-media img { height: 100%; object-fit: cover; }
@@ -143,6 +150,76 @@
     .card p { max-width: 42rem; color: var(--muted); }
     .card button { border: 0; border-bottom: 1px solid; padding: 0 0 .15rem; background: none; cursor: pointer; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .card button:hover { color: var(--accent); }
+
+    .exhibition-carousel,
+    .event-carousel { position: relative; }
+    .exhibition-carousel-viewport,
+    .event-carousel-viewport {
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+      scroll-snap-type: inline mandatory;
+    }
+    .exhibition-carousel-viewport::-webkit-scrollbar,
+    .event-carousel-viewport::-webkit-scrollbar { display: none; }
+    .exhibition-carousel-track,
+    .event-carousel-track {
+      --exhibition-gap: var(--pad);
+      display: flex;
+      gap: var(--exhibition-gap);
+    }
+    .exhibition-carousel-track .card,
+    .event-carousel-track .card {
+      flex: 0 0 calc((100% - (2 * var(--exhibition-gap))) / 3);
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+    .exhibition-carousel-track .exhibition-filter-empty,
+    .event-carousel-track .event-filter-empty { flex: 0 0 100%; }
+    .exhibition-carousel-arrow,
+    .event-carousel-arrow {
+      position: absolute;
+      top: clamp(6rem, 11vw, 10rem);
+      z-index: 2;
+      width: clamp(2.6rem, 4vw, 3.5rem);
+      aspect-ratio: 1;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+      font-size: 1.35rem;
+      line-height: 1;
+      transition: background .2s ease, color .2s ease;
+    }
+    .exhibition-carousel-arrow:hover,
+    .event-carousel-arrow:hover { background: var(--ink); color: var(--paper); }
+    .exhibition-carousel-arrow--latest { left: 0; transform: translate(-50%, -50%); }
+    .exhibition-carousel-arrow--past { right: 0; transform: translate(50%, -50%); }
+    .event-carousel-arrow--latest { left: 0; transform: translate(-50%, -50%); }
+    .event-carousel-arrow--past { right: 0; transform: translate(50%, -50%); }
+    .exhibition-carousel-arrow[hidden],
+    .event-carousel-arrow[hidden] { display: none; }
+    .exhibition-highlight-grid,
+    .event-highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--pad);
+      margin-top: clamp(3rem, 6vw, 6rem);
+    }
+    .exhibition-highlight,
+    .event-highlight { grid-column: span 6; }
+    .highlight-tag {
+      display: inline-block;
+      margin-bottom: .65rem;
+      padding: .25rem .45rem;
+      background: var(--yellow);
+      color: var(--ink);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
 
     .events { padding-block: clamp(4rem, 9vw, 9rem); background: var(--paper); color: var(--ink); }
     .event-filters {
@@ -363,6 +440,10 @@
       .feature-copy, .contact-panel { border-left: 0; border-top: 1px solid var(--ink); }
       .card { grid-column: span 6; }
       .card:nth-child(5) { grid-column: span 12; }
+      .exhibition-carousel-track .card,
+      .event-carousel-track .card { flex-basis: calc((100% - var(--exhibition-gap)) / 2); }
+      .exhibition-highlight,
+      .event-highlight { grid-column: span 12; }
       .press-card { grid-column: span 6; }
       .about-grid { grid-template-columns: 1fr; }
       .about-title { position: static; }
@@ -381,6 +462,18 @@
       .feature h3 { font-size: 3.6rem; }
       .card-grid { display: block; }
       .card { margin-bottom: 3rem; }
+      .exhibition-carousel-track,
+      .event-carousel-track { --exhibition-gap: 1rem; }
+      .exhibition-carousel-track .card,
+      .event-carousel-track .card { flex-basis: 100%; margin-bottom: 0; }
+      .exhibition-carousel-arrow,
+      .event-carousel-arrow { top: clamp(7rem, 45vw, 10rem); }
+      .exhibition-carousel-arrow--latest { left: .5rem; transform: translateY(-50%); }
+      .exhibition-carousel-arrow--past { right: .5rem; transform: translateY(-50%); }
+      .event-carousel-arrow--latest { left: .5rem; transform: translateY(-50%); }
+      .event-carousel-arrow--past { right: .5rem; transform: translateY(-50%); }
+      .exhibition-highlight-grid,
+      .event-highlight-grid { display: block; }
       .about-portraits { grid-template-columns: 1fr; }
       .press-grid { display: block; }
       .press-card { display: block; margin-bottom: 3rem; }
@@ -435,7 +528,7 @@
         <div class="hero-intro">
           <p>A living cultural space where exhibitions, performance and interdisciplinary encounters connect artistic archives with contemporary practice.</p>
           <div class="hero-actions">
-            <a class="text-link" href="#now-on">Current exhibition</a>
+            <a class="text-link" href="#now-on">Now on</a>
             <a class="text-link" href="#visit">Plan your visit</a>
           </div>
         </div>
@@ -455,31 +548,34 @@
     <section class="current shell" id="now-on" aria-labelledby="current-title">
       <div class="section-heading rule reveal">
         <h2 id="current-title">Now on</h2>
-        <span class="index">01 / Exhibitions</span>
+        <span class="index">2026 programme</span>
       </div>
-      <article class="feature reveal">
-        <div class="feature-media">
-          <img src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/1.jpg" alt="Installation view of Beyond the Line with striped paintings and sculptural works by Oleg Prokofiev">
+      <div class="now-on-viewport" data-now-on-viewport aria-label="Current exhibitions and events" aria-live="off">
+        <div class="now-on-track" data-now-on-track>
+          <article class="feature reveal">
+            <div class="feature-media">
+              <img src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/1.jpg" alt="Installation view of Beyond the Line with striped paintings and sculptural works by Oleg Prokofiev">
+            </div>
+            <div class="feature-copy">
+              <div>
+                <p class="status">Current exhibition</p>
+                <h3>Beyond the Line</h3>
+                <p class="dates">July — September 2026</p>
+              </div>
+              <div>
+                <p class="summary">A solo exhibition exploring the decisive moment when drawing, painting and sculpture began to dissolve into one another through Oleg Prokofiev’s radical use of line, colour and space.</p>
+                <button class="button" type="button" data-dialog="beyond-dialog">More</button>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="feature-copy">
-          <div>
-            <p class="status">Current exhibition</p>
-            <h3>Beyond the Line</h3>
-            <p class="dates">July — September 2026</p>
-          </div>
-          <div>
-            <p class="summary">A solo exhibition exploring the decisive moment when drawing, painting and sculpture began to dissolve into one another through Oleg Prokofiev’s radical use of line, colour and space.</p>
-            <p class="eyebrow" style="margin: 0 0 1.4rem">Curated by Anzhela Popova</p>
-            <button class="button" type="button" data-dialog="beyond-dialog">More</button>
-          </div>
-        </div>
-      </article>
+      </div>
     </section>
 
     <section class="programme shell" id="exhibitions" aria-labelledby="programme-title">
       <div class="section-heading rule reveal">
         <h2 id="programme-title">Exhibitions</h2>
-        <span class="index">2026 programme</span>
+        <span class="index">01 / Exhibitions</span>
       </div>
       <div class="event-filters reveal" role="group" aria-label="Filter exhibitions">
         <button type="button" data-exhibition-filter="upcoming" aria-pressed="false">UPCOMING</button>
@@ -488,8 +584,19 @@
         <span class="separator" aria-hidden="true">/</span>
         <button type="button" data-exhibition-filter="past" aria-pressed="false">PAST</button>
       </div>
-      <div class="card-grid" data-exhibition-list>
-        <article class="card reveal" data-start-date="2026-06-12" data-end-date="2026-06-20">
+      <div class="exhibition-carousel reveal" data-exhibition-carousel>
+        <button class="exhibition-carousel-arrow exhibition-carousel-arrow--latest" type="button" data-exhibition-direction="latest" aria-label="Show latest exhibitions" hidden>&#8592;</button>
+        <div class="exhibition-carousel-viewport" data-exhibition-viewport tabindex="0" aria-label="Exhibitions, newest to oldest">
+          <div class="exhibition-carousel-track" data-exhibition-list>
+        <article class="card reveal" data-exhibition-id="beyond-the-line" data-start-date="2026-07-01" data-end-date="2026-09-30">
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/05_BEYOND THE LINE - July-September, 2026/1.jpg" alt="Installation view of Beyond the Line with striped paintings and sculptural works by Oleg Prokofiev"></div>
+          <div class="card-meta"><span>Solo exhibition</span><time datetime="2026-07-01">July — September 2026</time></div>
+          <h3>Beyond the Line</h3>
+          <p>A solo exhibition exploring the decisive moment when drawing, painting and sculpture began to dissolve into one another through Oleg Prokofiev’s radical use of line, colour and space.</p>
+          <button type="button" data-dialog="beyond-dialog">More</button>
+        </article>
+
+        <article class="card reveal" data-exhibition-id="yield" data-start-date="2026-06-12" data-end-date="2026-06-20">
           <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/04_YIELD - June 12-20, 2026/HAW_Prokofiev Studio4W1A7665_JFH.jpg" alt="Installation view of the group exhibition Yield"></div>
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-12">12—20 June 2026</time></div>
           <h3>Yield</h3>
@@ -497,7 +604,7 @@
           <button type="button" data-dialog="yield-dialog">More</button>
         </article>
 
-        <article class="card reveal" data-start-date="2026-06-01" data-end-date="2026-06-14">
+        <article class="card reveal" data-exhibition-id="pink-chaos" data-start-date="2026-06-01" data-end-date="2026-06-14">
           <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/03_PINK CHAOS - June 1-8, 2026/HAW_PinkChaos4W1A4743_JFH.jpg" alt="Installation view of Pink Chaos during Hackney Art Week"></div>
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-06-01">1—14 June 2026</time></div>
           <h3>Pink Chaos</h3>
@@ -505,7 +612,7 @@
           <button type="button" data-dialog="pink-dialog">More</button>
         </article>
 
-        <article class="card reveal" data-start-date="2026-05-01" data-end-date="2026-05-29">
+        <article class="card reveal" data-exhibition-id="bending-time" data-start-date="2026-05-01" data-end-date="2026-05-29">
           <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/02_BENDING TIME - May 1-29, 2026/BT1.jpg" alt="Installation view of Bending Time with archival and sculptural works"></div>
           <div class="card-meta"><span>Group exhibition</span><time datetime="2026-05-01">1—29 May 2026</time></div>
           <h3>Bending Time</h3>
@@ -513,14 +620,27 @@
           <button type="button" data-dialog="bending-dialog">More</button>
         </article>
 
-        <article class="card reveal" data-start-date="2026-02-13" data-end-date="2026-02-27">
+        <article class="card reveal" data-exhibition-id="composing-space" data-start-date="2026-02-13" data-end-date="2026-02-27">
           <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/670011112_17910870624377763_8143524004252690779_n.jpg" alt="Installation view from Composing Space"></div>
           <div class="card-meta"><span>Solo exhibition</span><time datetime="2026-02-13">13—27 February 2026</time></div>
           <h3>Composing Space</h3>
           <p>Oleg Prokofiev’s rhythm of shapes: where line leaves the page and becomes sculpture.</p>
           <button type="button" data-dialog="composing-dialog">More</button>
         </article>
+          </div>
+        </div>
+        <button class="exhibition-carousel-arrow exhibition-carousel-arrow--past" type="button" data-exhibition-direction="past" aria-label="Show past exhibitions">&#8594;</button>
+      </div>
 
+      <div class="exhibition-highlight-grid">
+        <article class="card exhibition-highlight reveal" data-highlight-exhibition="composing-space" data-tag="highlight">
+          <span class="highlight-tag">highlight</span>
+          <div class="card-image"><img loading="lazy" src="Website - Prokofiev Studio/01_1_EXHIBITIONS/01_COMPOSING SPACE - February 13-27, 2026/670011112_17910870624377763_8143524004252690779_n.jpg" alt="Installation view from Composing Space"></div>
+          <div class="card-meta"><span>Solo exhibition</span><time datetime="2026-02-13">13—27 February 2026</time></div>
+          <h3>Composing Space</h3>
+          <p>Oleg Prokofiev’s rhythm of shapes: where line leaves the page and becomes sculpture.</p>
+          <button type="button" data-dialog="composing-dialog">More</button>
+        </article>
       </div>
     </section>
 
@@ -537,8 +657,21 @@
           <span class="separator" aria-hidden="true">/</span>
           <button type="button" data-event-filter="past" aria-pressed="false">PAST</button>
         </div>
-        <div class="card-grid" data-event-list>
-          <article class="card reveal" data-start-date="2026-07-08" data-end-date="2026-07-08">
+        <div class="event-carousel reveal" data-event-carousel>
+          <button class="event-carousel-arrow event-carousel-arrow--latest" type="button" data-event-direction="latest" aria-label="Show latest events" hidden>&#8592;</button>
+          <div class="event-carousel-viewport" data-event-viewport tabindex="0" aria-label="Events, newest to oldest">
+            <div class="event-carousel-track" data-event-list>
+          <article class="card reveal" data-event-id="kinetica-summer-art-school" data-start-date="2026-07-21" data-end-date="2026-08-22">
+            <div class="card-image">
+              <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/04_Summer_Art_School/photo_2026-07-29_22-16-07.jpg" alt="Painting and drawing materials prepared for Kinetica Summer Art School">
+            </div>
+            <div class="card-meta"><span>Art school · Ages 6—12</span><time datetime="2026-07-21">21 July—22 August 2026</time></div>
+            <h3>Kinetica Summer Art School</h3>
+            <p>Open-ended classes in sketching, painting, drawing, clay and collage, guided by Gleb Skubachevsky and Ksenia Ilina.</p>
+            <button type="button" data-dialog="summer-school-dialog">More</button>
+          </article>
+
+          <article class="card reveal" data-event-id="poetry-evening-oleg-prokofiev" data-start-date="2026-07-08" data-end-date="2026-07-08">
             <div class="card-image">
               <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/03_Poetry Evening_ Oleg Prokofiev - July 8, 2026/IMG_9240.JPG" alt="Gabriel Prokofiev and Maria Bregman at the Oleg Prokofiev poetry evening">
             </div>
@@ -548,7 +681,7 @@
             <button type="button" data-dialog="poetry-dialog">More</button>
           </article>
 
-          <article class="card reveal" data-start-date="2026-05-30" data-end-date="2026-05-30">
+          <article class="card reveal" data-event-id="the-sun-of-prokofiev" data-start-date="2026-05-30" data-end-date="2026-05-30">
             <div class="card-image event-placeholder" aria-hidden="true"><span>SIFFA<br>Masterclass</span></div>
             <div class="card-meta"><span>Film &amp; music</span><time datetime="2026-05-30">30 May 2026</time></div>
             <h3>The Sun of Prokofiev</h3>
@@ -556,7 +689,7 @@
             <button type="button" data-dialog="siffa-dialog">More</button>
           </article>
 
-          <article class="card reveal" data-start-date="2026-04-23" data-end-date="2026-04-23">
+          <article class="card reveal" data-event-id="i-choose-to-live" data-start-date="2026-04-23" data-end-date="2026-04-23">
             <div class="card-image">
               <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/01_Screening. I Choose to Live - April 23,2026/IMG_8151.JPG" alt="Audience at the documentary screening I Choose to Live">
             </div>
@@ -565,8 +698,14 @@
             <p>Maria Bregman’s documentary portrait of poet Lydia Grigorieva, moving between memory, loss and a flourishing inner world.</p>
             <button type="button" data-dialog="screening-dialog">More</button>
           </article>
+            </div>
+          </div>
+          <button class="event-carousel-arrow event-carousel-arrow--past" type="button" data-event-direction="past" aria-label="Show past events">&#8594;</button>
+        </div>
 
-          <article class="card reveal" data-start-date="2026-07-21" data-end-date="2026-08-22">
+        <div class="event-highlight-grid">
+          <article class="card event-highlight reveal" data-highlight-event="kinetica-summer-art-school" data-tag="highlight">
+            <span class="highlight-tag">highlight</span>
             <div class="card-image">
               <img loading="lazy" src="Website - Prokofiev Studio/01_2_EVENTS/04_Summer_Art_School/photo_2026-07-29_22-16-07.jpg" alt="Painting and drawing materials prepared for Kinetica Summer Art School">
             </div>
@@ -1002,8 +1141,9 @@ the mystery of unadorned stillness</p>
 
     nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 
-    document.querySelectorAll('[data-dialog]').forEach(button => {
-      button.addEventListener('click', () => document.getElementById(button.dataset.dialog)?.showModal());
+    document.addEventListener('click', event => {
+      const button = event.target.closest('[data-dialog]');
+      if (button) document.getElementById(button.dataset.dialog)?.showModal();
     });
 
     document.querySelectorAll('dialog').forEach(dialog => {
@@ -1025,7 +1165,7 @@ the mystery of unadorned stillness</p>
       return new Date(year, month - 1, day);
     };
 
-    const getEventMode = card => {
+    const getCardMode = card => {
       const startValue = card.dataset.startDate || card.querySelector('time[datetime]')?.dateTime;
       const endValue = card.dataset.endDate || startValue;
       if (!startValue || !endValue) return null;
@@ -1038,6 +1178,8 @@ the mystery of unadorned stillness</p>
       if (today >= startDate && today <= endDate) return 'current';
       return startDate > today ? 'upcoming' : 'past';
     };
+
+    const getEventMode = getCardMode;
 
     const renderEventFilter = () => {
       let visibleCount = 0;
@@ -1060,6 +1202,11 @@ the mystery of unadorned stillness</p>
         emptyState.textContent = `No ${activeEventFilter} events at the moment.`;
         eventList.append(emptyState);
       }
+
+      if (eventViewport) {
+        eventViewport.scrollTo({ left: 0, behavior: 'auto' });
+        window.requestAnimationFrame(updateEventArrows);
+      }
     };
 
     eventFilters.forEach(button => {
@@ -1070,24 +1217,47 @@ the mystery of unadorned stillness</p>
       });
     });
 
+    const eventCarousel = document.querySelector('[data-event-carousel]');
+    const eventViewport = eventCarousel?.querySelector('[data-event-viewport]');
+    const latestEventButton = eventCarousel?.querySelector('[data-event-direction="latest"]');
+    const pastEventButton = eventCarousel?.querySelector('[data-event-direction="past"]');
+
+    const visibleEventCards = () => eventCards.filter(card => !card.hidden);
+
+    const updateEventArrows = () => {
+      if (!eventViewport || !latestEventButton || !pastEventButton) return;
+      const maxScroll = Math.max(0, eventViewport.scrollWidth - eventViewport.clientWidth);
+      latestEventButton.hidden = eventViewport.scrollLeft <= 2;
+      pastEventButton.hidden = eventViewport.scrollLeft >= maxScroll - 2 || maxScroll <= 2;
+    };
+
+    const moveEventCarousel = direction => {
+      if (!eventViewport) return;
+      const firstCard = visibleEventCards()[0];
+      if (!firstCard) return;
+      const gap = eventList ? parseFloat(getComputedStyle(eventList).columnGap) || 0 : 0;
+      const distance = firstCard.getBoundingClientRect().width + gap;
+      eventViewport.scrollBy({
+        left: direction === 'latest' ? -distance : distance,
+        behavior: 'smooth'
+      });
+    };
+
+    latestEventButton?.addEventListener('click', () => moveEventCarousel('latest'));
+    pastEventButton?.addEventListener('click', () => moveEventCarousel('past'));
+    eventViewport?.addEventListener('scroll', updateEventArrows, { passive: true });
+
+    if (eventViewport) {
+      new ResizeObserver(updateEventArrows).observe(eventViewport);
+      window.requestAnimationFrame(updateEventArrows);
+    }
+
     const exhibitionFilters = document.querySelectorAll('[data-exhibition-filter]');
     const exhibitionList = document.querySelector('[data-exhibition-list]');
     const exhibitionCards = exhibitionList ? [...exhibitionList.querySelectorAll('.card')] : [];
     let activeExhibitionFilter = null;
 
-    const getExhibitionMode = card => {
-      const startValue = card.dataset.startDate;
-      const endValue = card.dataset.endDate;
-      if (!startValue || !endValue) return null;
-
-      const startDate = dateFromISO(startValue);
-      const endDate = dateFromISO(endValue);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (today >= startDate && today <= endDate) return 'current';
-      return startDate > today ? 'upcoming' : 'past';
-    };
+    const getExhibitionMode = getCardMode;
 
     const renderExhibitionFilter = () => {
       let visibleCount = 0;
@@ -1110,6 +1280,11 @@ the mystery of unadorned stillness</p>
         emptyState.textContent = `No ${activeExhibitionFilter} exhibitions at the moment.`;
         exhibitionList.append(emptyState);
       }
+
+      if (exhibitionViewport) {
+        exhibitionViewport.scrollTo({ left: 0, behavior: 'auto' });
+        window.requestAnimationFrame(updateExhibitionArrows);
+      }
     };
 
     exhibitionFilters.forEach(button => {
@@ -1119,6 +1294,183 @@ the mystery of unadorned stillness</p>
         renderExhibitionFilter();
       });
     });
+
+    const exhibitionCarousel = document.querySelector('[data-exhibition-carousel]');
+    const exhibitionViewport = exhibitionCarousel?.querySelector('[data-exhibition-viewport]');
+    const latestExhibitionButton = exhibitionCarousel?.querySelector('[data-exhibition-direction="latest"]');
+    const pastExhibitionButton = exhibitionCarousel?.querySelector('[data-exhibition-direction="past"]');
+
+    const visibleExhibitionCards = () => exhibitionCards.filter(card => !card.hidden);
+
+    const updateExhibitionArrows = () => {
+      if (!exhibitionViewport || !latestExhibitionButton || !pastExhibitionButton) return;
+      const maxScroll = Math.max(0, exhibitionViewport.scrollWidth - exhibitionViewport.clientWidth);
+      latestExhibitionButton.hidden = exhibitionViewport.scrollLeft <= 2;
+      pastExhibitionButton.hidden = exhibitionViewport.scrollLeft >= maxScroll - 2 || maxScroll <= 2;
+    };
+
+    const moveExhibitionCarousel = direction => {
+      if (!exhibitionViewport) return;
+      const firstCard = visibleExhibitionCards()[0];
+      if (!firstCard) return;
+      const track = exhibitionList;
+      const gap = track ? parseFloat(getComputedStyle(track).columnGap) || 0 : 0;
+      const distance = firstCard.getBoundingClientRect().width + gap;
+      exhibitionViewport.scrollBy({
+        left: direction === 'latest' ? -distance : distance,
+        behavior: 'smooth'
+      });
+    };
+
+    latestExhibitionButton?.addEventListener('click', () => moveExhibitionCarousel('latest'));
+    pastExhibitionButton?.addEventListener('click', () => moveExhibitionCarousel('past'));
+    exhibitionViewport?.addEventListener('scroll', updateExhibitionArrows, { passive: true });
+
+    if (exhibitionViewport) {
+      new ResizeObserver(updateExhibitionArrows).observe(exhibitionViewport);
+      window.requestAnimationFrame(updateExhibitionArrows);
+    }
+
+    const nowOnViewport = document.querySelector('[data-now-on-viewport]');
+    const nowOnTrack = document.querySelector('[data-now-on-track]');
+
+    const createNowOnSlide = (card, type, index) => {
+      const slide = document.createElement('article');
+      const sourceMedia = card.querySelector('.card-image');
+      const sourceTitle = card.querySelector('h3');
+      const sourceDates = card.querySelector('time');
+      const sourceSummary = card.querySelector(':scope > p');
+      const sourceButton = card.querySelector('[data-dialog]');
+      const media = sourceMedia?.cloneNode(true) || document.createElement('div');
+      const copy = document.createElement('div');
+      const headingGroup = document.createElement('div');
+      const detailGroup = document.createElement('div');
+      const status = document.createElement('p');
+      const title = document.createElement('h3');
+      const dates = document.createElement('p');
+      const summary = document.createElement('p');
+
+      slide.className = 'feature';
+      slide.dataset.nowOnType = type;
+      slide.setAttribute('aria-label', `${type}: ${sourceTitle?.textContent.trim() || 'Current programme'}`);
+
+      media.classList.remove('card-image');
+      media.classList.add('feature-media');
+      const image = media.querySelector('img');
+      if (image) {
+        if (index) image.loading = 'lazy';
+        else image.removeAttribute('loading');
+      }
+
+      copy.className = 'feature-copy';
+      status.className = 'status';
+      status.textContent = `Current ${type}`;
+      title.textContent = sourceTitle?.textContent || '';
+      dates.className = 'dates';
+      dates.textContent = sourceDates?.textContent || '';
+      summary.className = 'summary';
+      summary.textContent = sourceSummary?.textContent || '';
+
+      headingGroup.append(status, title, dates);
+      detailGroup.append(summary);
+      if (sourceButton) {
+        const button = sourceButton.cloneNode(true);
+        button.className = 'button';
+        detailGroup.append(button);
+      }
+      copy.append(headingGroup, detailGroup);
+      slide.append(media, copy);
+      return slide;
+    };
+
+    if (nowOnViewport && nowOnTrack) {
+      const currentItems = [
+        ...exhibitionCards.filter(card => getExhibitionMode(card) === 'current').map(card => ({ card, type: 'exhibition' })),
+        ...eventCards.filter(card => getEventMode(card) === 'current').map(card => ({ card, type: 'event' }))
+      ];
+
+      if (!currentItems.length) {
+        const emptyState = document.createElement('p');
+        emptyState.className = 'event-filter-empty';
+        emptyState.setAttribute('role', 'status');
+        emptyState.textContent = 'No current exhibitions or events at the moment.';
+        nowOnTrack.replaceChildren(emptyState);
+      } else {
+        const slides = currentItems.map(({ card, type }, index) => createNowOnSlide(card, type, index));
+        nowOnTrack.replaceChildren(...slides);
+
+        if (slides.length > 1) {
+          const loopClone = slides[0].cloneNode(true);
+          loopClone.setAttribute('aria-hidden', 'true');
+          loopClone.querySelectorAll('button, a').forEach(control => control.tabIndex = -1);
+          nowOnTrack.append(loopClone);
+
+          let slideIndex = 0;
+          let slideTimer;
+          let transitionTimer;
+          let isTransitioning = false;
+          let isPaused = false;
+
+          const updateSlideAccessibility = () => {
+            slides.forEach((slide, index) => slide.setAttribute('aria-hidden', String(index !== slideIndex)));
+          };
+
+          const positionNowOn = (animate = true) => {
+            nowOnTrack.style.transition = animate ? '' : 'none';
+            nowOnTrack.style.transform = `translate3d(${-slideIndex * nowOnViewport.clientWidth}px, 0, 0)`;
+          };
+
+          const scheduleNextNowOn = () => {
+            window.clearTimeout(slideTimer);
+            if (!isPaused && !document.hidden && !isTransitioning) slideTimer = window.setTimeout(() => {
+              isTransitioning = true;
+              slideIndex += 1;
+              if (slideIndex < slides.length) updateSlideAccessibility();
+              positionNowOn();
+              window.clearTimeout(transitionTimer);
+              transitionTimer = window.setTimeout(completeNowOnTransition, 900);
+            }, 3000);
+          };
+
+          const completeNowOnTransition = () => {
+            if (!isTransitioning) return;
+            isTransitioning = false;
+            window.clearTimeout(transitionTimer);
+            if (slideIndex === slides.length) {
+              slideIndex = 0;
+              updateSlideAccessibility();
+              positionNowOn(false);
+              nowOnTrack.getBoundingClientRect();
+              nowOnTrack.style.transition = '';
+            }
+            scheduleNextNowOn();
+          };
+
+          nowOnTrack.addEventListener('transitionend', event => {
+            if (event.propertyName === 'transform') completeNowOnTransition();
+          });
+
+          const setNowOnPaused = paused => {
+            isPaused = paused;
+            if (paused) window.clearTimeout(slideTimer);
+            else scheduleNextNowOn();
+          };
+
+          nowOnViewport.addEventListener('mouseenter', () => setNowOnPaused(true));
+          nowOnViewport.addEventListener('mouseleave', () => setNowOnPaused(false));
+          nowOnViewport.addEventListener('focusin', () => setNowOnPaused(true));
+          nowOnViewport.addEventListener('focusout', event => {
+            if (!nowOnViewport.contains(event.relatedTarget)) setNowOnPaused(false);
+          });
+          document.addEventListener('visibilitychange', () => setNowOnPaused(document.hidden));
+          new ResizeObserver(() => positionNowOn(false)).observe(nowOnViewport);
+
+          updateSlideAccessibility();
+          positionNowOn(false);
+          scheduleNextNowOn();
+        }
+      }
+    }
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
